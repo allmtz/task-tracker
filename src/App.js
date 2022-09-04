@@ -11,9 +11,9 @@ import SubtaskInput from './components/SubtaskInput';
 
 
 function App() {
-  const [boards, setBoards] = useState([{
+  const [boards, setBoards] = useState( [{
       'title' : 'Shop',
-      'subtasks':['go to store','get cereal','get beer','buy toothpaste'],
+      'subtasks':['go to store','get cereal','get beer','buy toothpaste test long subtask names'],
       'doing': ['homework','project 2'],
       'done': ['shopping','planning'],
       'key': 1,
@@ -28,7 +28,7 @@ function App() {
     },
     {
       'title' : 'make a sandwich',
-      'subtasks':['sourdough','turkey','sharp ched','heirloom tom', 'avo','s&p'],
+      'subtasks':['sourdough','turkey','sharp ched','heirloom tom', 'avo','s&P'],
       'doing': ['buying bread'],
       'done': ['buying avo'],
       'key': 3,
@@ -52,6 +52,7 @@ function App() {
 
 
     setFocusedBoard(focusedBoard)
+    console.log('focused')
     
     
     
@@ -118,12 +119,84 @@ function App() {
     // subtaskInput.current.value= ''   //rewrite clear function
   }
 
+  function changeStatus(e){
+
+    const status = e.target.closest('.card').getAttribute('data-status')
+    const taskClicked = e.target.closest('.card').id
+    const objectID = e.target.closest('.card').getAttribute('data-key')
+    const boardClone = [...boards]
+
+    // console.log(taskClicked, objectID, status)
+
+    if(status === 'todo'){
+      const updatedTodos = focusedBoard.subtasks.filter(task => task !== taskClicked)
+          
+      boardClone.forEach(board => {
+        if(board.key == objectID){
+          board.subtasks = updatedTodos
+          board.doing.push(taskClicked)
+        }
+
+      })
+
+    setBoards(boardClone)
+
+    }
+
+    if(status === 'doing'){
+      const updatedTodos = focusedBoard.doing.filter(task => task !== taskClicked)
+          
+      boardClone.forEach(board => {
+        if(board.key == objectID){
+          board.doing = updatedTodos
+          board.done.push(taskClicked)
+        }
+
+      })
+
+    setBoards(boardClone)
+
+    }
+
+    if(status === 'done'){
+      const updatedTodos = focusedBoard.done.filter(task => task !== taskClicked)
+          
+      boardClone.forEach(board => {
+        if(board.key == objectID){
+          board.done = updatedTodos
+        }
+
+      })
+
+      setBoards(boardClone)
+
+    }
+
+  }
+
+  function addCard(){
+    console.log('added card')
+  
+
+
+  }
+
+  function openCardWindow(){
+    addCardWindow.current.style.display='flex'
+    
+  }
+
+  function capitalizeFirstLetter(string){
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
   // TODOD implement useRef
   const createBoardBtn = useRef(null) //might not need
   const closePopupBtn = useRef(null)  //might not need
   const popupWindow = useRef(null)
   const titleInput = useRef(null)  
   const descInput = useRef(null) 
+  const addCardWindow = useRef(null)
 
   const subtaskInput = useRef(null)   
   const subtaskInputContainer = useRef(null)
@@ -152,6 +225,16 @@ function App() {
             <button type='submit' onClick={ () => createTask() }>Create Task</button>
         </div>
       </div>
+
+      <div ref={addCardWindow} className="add-card-container">
+          <div className="add-card-window">
+            <h3>What's Next ?</h3>
+            <input className='defaultInputBox' type='text'  /> 
+            <button onClick={ () => addCard() }>Create Card</button>
+
+          </div>
+          
+      </div>
       
       <div className="sidebar">
         <h1>sidebar</h1>
@@ -162,12 +245,11 @@ function App() {
       <div className="body">
         <div className="header">
           <h1>Platform Launch</h1>
-          {/* <AddTaskBtn /> */}
         </div>
         <div className="main">
-           <Todo  focusedBoard={focusedBoard} />
-           <Doing focusedBoard={focusedBoard} />
-           <Done  focusedBoard={focusedBoard}/>
+           <Todo  focusedBoard={focusedBoard} changeStatus={changeStatus} capitalizeFirstLetter={capitalizeFirstLetter} openCardWindow={openCardWindow} />
+           <Doing focusedBoard={focusedBoard} changeStatus={changeStatus} capitalizeFirstLetter={capitalizeFirstLetter} />
+           <Done  focusedBoard={focusedBoard} changeStatus={changeStatus} capitalizeFirstLetter={capitalizeFirstLetter} />
            {/* <AddColumn />  */}
 
           
