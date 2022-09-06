@@ -14,6 +14,16 @@ function App() {
   
   let cardType = ''
 
+  const backup = {
+      'title': "...There's always netflix ?",
+      'subtasks':[],
+      'doing': [],
+      'done': [],
+      'key': 1,
+
+  }
+
+
   const [boards, setBoards] = useState( [{
       'title' : 'Shop',
       'subtasks':['go to store','get cereal','get beer','buy toothpaste test long subtask names'],
@@ -230,6 +240,23 @@ function App() {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
+  function deleteBoard(){
+    const indexOfDeletedTask = boards.indexOf(boards.find(board => board.key == focusedBoard.key))
+    const updatedTasks = boards.filter(board => board.key != focusedBoard.key)
+    
+    setBoards(updatedTasks)
+
+    if(updatedTasks[indexOfDeletedTask + 1] === undefined){
+      if(updatedTasks[0] === undefined || updatedTasks === []){
+        setFocusedBoard(backup)
+      }
+      else{setFocusedBoard(updatedTasks[0])}
+    }
+    else{
+      setFocusedBoard(updatedTasks[indexOfDeletedTask + 1])
+    }
+
+  }
   // TODOD implement useRef
   const createBoardBtn = useRef(null) //might not need
   const closePopupBtn = useRef(null)  //might not need
@@ -294,6 +321,7 @@ function App() {
       <div className="body">
         <div className="header">
           <h1>{ focusedBoard.title.split(' ').map(word=>capitalizeFirstLetter(word)).join(' ') }</h1>
+          <button onClick={ ()=>deleteBoard() }>Delete Board</button>
         </div>
         <div className="main">
            <Todo  focusedBoard={focusedBoard} changeStatus={changeStatus} capitalizeFirstLetter={capitalizeFirstLetter} openCardWindow={openCardWindow} />
