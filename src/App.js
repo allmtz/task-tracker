@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import BoardList from './components/BoardList';
 import CreateBoardBtn from './components/CreateBoardBtn';
 import Todo from './components/Todo';
@@ -11,6 +11,9 @@ import SubtaskInput from './components/SubtaskInput';
 
 
 function App() {
+  
+  let cardType = ''
+
   const [boards, setBoards] = useState( [{
       'title' : 'Shop',
       'subtasks':['go to store','get cereal','get beer','buy toothpaste test long subtask names'],
@@ -109,6 +112,7 @@ function App() {
 
   function closePopup(){
     popupWindow.current.style.display = 'none'
+    addCardWindow.current.style.display = 'none'
     clearPopupInputs()
   }
 
@@ -174,16 +178,52 @@ function App() {
 
   }
 
-  function addCard(){
+  function createCard(){
     console.log('added card')
-  
+    console.log(cardType)
+    const boardClone=[...boards]
 
+    if(cardType == 'todo'){
+      const taskToAdd = addCardInput.current.value
 
+      boardClone.forEach(board => {
+        if(board.key == focusedBoard.key){
+          board.subtasks.push(taskToAdd)
+        }
+      })
+
+      setBoards(boardClone)
+    }
+
+    if(cardType == 'doing'){
+      const taskToAdd = addCardInput.current.value
+
+      boardClone.forEach(board => {
+        if(board.key == focusedBoard.key){
+          board.doing.push(taskToAdd)
+        }
+      })
+
+      setBoards(boardClone)
+    }
+
+    if(cardType == 'done'){
+      const taskToAdd = addCardInput.current.value
+
+      boardClone.forEach(board => {
+        if(board.key == focusedBoard.key){
+          board.done.push(taskToAdd)
+        }
+      })
+
+      setBoards(boardClone)
+    }
   }
 
-  function openCardWindow(){
+  function openCardWindow(e){
     addCardWindow.current.style.display='flex'
-    
+
+    cardType = e.target.id
   }
 
   function capitalizeFirstLetter(string){
@@ -197,6 +237,7 @@ function App() {
   const titleInput = useRef(null)  
   const descInput = useRef(null) 
   const addCardWindow = useRef(null)
+  const addCardInput = useRef(null)
 
   const subtaskInput = useRef(null)   
   const subtaskInputContainer = useRef(null)
@@ -217,7 +258,10 @@ function App() {
             <textarea ref={descInput} className='descInputBox'  placeholder='e.g. its always good to take a break' name="" id="" cols="30" rows="10"></textarea>
             <p>Subtasks</p>
             <div ref={subtaskInputContainer} className="subtaskContainer">
-              <div className='subInput-close'><input className='defaultInputBox' type='text'  /> <button className='deleteSubtaskBtn'>X</button></div>
+              <div className='subInput-close'>
+                <input className='defaultInputBox' type='text'  />
+                <button className='deleteSubtaskBtn'>X</button>
+              </div>
               {/* <input ref={subtaskInput} className="defaultInputBox" type="text" name="" id="" placeholder="make the coffee"/>  */}
               {/* <SubtaskInput deleteSubtask={deleteSubtask} /> */}
             </div>
@@ -227,15 +271,20 @@ function App() {
       </div>
 
       <div ref={addCardWindow} className="add-card-container">
-          <div className="add-card-window">
-            <h3>What's Next ?</h3>
-            <input className='defaultInputBox' type='text'  /> 
-            <button onClick={ () => addCard() }>Create Card</button>
-
+        <div className="add-card-window">
+          <div className='add-card-header'>
+            <h3>Add New Card</h3>
+            <button ref={closePopupBtn} onClick={()=>closePopup()}>X</button>
           </div>
-          
+            <p>What's Next ?</p>
+            <div className="subtaskContainer">
+              <div className='subInput-close'>
+                <input ref={addCardInput} className='defaultInputBox' type='text'  /></div>
+            </div>
+            <button type='submit' onClick={ () => createCard() }>Create Card</button>
+        </div>
       </div>
-      
+
       <div className="sidebar">
         <h1>sidebar</h1>
         <BoardList boards = {boards} focusBoard={focusBoard} />
@@ -244,12 +293,12 @@ function App() {
 
       <div className="body">
         <div className="header">
-          <h1>Platform Launch</h1>
+          <h1>{ focusedBoard.title.split(' ').map(word=>capitalizeFirstLetter(word)).join(' ') }</h1>
         </div>
         <div className="main">
            <Todo  focusedBoard={focusedBoard} changeStatus={changeStatus} capitalizeFirstLetter={capitalizeFirstLetter} openCardWindow={openCardWindow} />
-           <Doing focusedBoard={focusedBoard} changeStatus={changeStatus} capitalizeFirstLetter={capitalizeFirstLetter} />
-           <Done  focusedBoard={focusedBoard} changeStatus={changeStatus} capitalizeFirstLetter={capitalizeFirstLetter} />
+           <Doing focusedBoard={focusedBoard} changeStatus={changeStatus} capitalizeFirstLetter={capitalizeFirstLetter} openCardWindow={openCardWindow} />
+           <Done  focusedBoard={focusedBoard} changeStatus={changeStatus} capitalizeFirstLetter={capitalizeFirstLetter} openCardWindow={openCardWindow} />
            {/* <AddColumn />  */}
 
           

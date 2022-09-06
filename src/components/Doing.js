@@ -1,4 +1,4 @@
-function Doing ( {focusedBoard, changeStatus, capitalizeFirstLetter } ){
+function Doing ( {focusedBoard, changeStatus, capitalizeFirstLetter, openCardWindow } ){
     let i = 0
     return(
         <div className="doing-container">
@@ -6,6 +6,8 @@ function Doing ( {focusedBoard, changeStatus, capitalizeFirstLetter } ){
             {focusedBoard.doing.map( task=> {
                 i++
                 return <div id={task} className="card" data-status='doing' data-key={focusedBoard.key} onClick={(e)=> changeStatus(e)} key={i}><p>{capitalizeFirstLetter(task)}</p></div>} )}
+            <button id="doing" onClick={(e)=>openCardWindow(e)}>+ Add Card</button>
+
         </div>
     )
 

@@ -1,11 +1,14 @@
-function Done ( {focusedBoard, changeStatus, capitalizeFirstLetter } ){
+function Done ( {focusedBoard, changeStatus, capitalizeFirstLetter, openCardWindow } ){
     let i = 0
     return(
-        <div className="done-container">
-            <h2>Done({focusedBoard.done.length})</h2>
+        <div className="todo-container">
+            <h2>Done({focusedBoard.subtasks.length})</h2>
             {focusedBoard.done.map( subtask=> {
                 i++
-                return <div id={subtask} data-key={focusedBoard.key} data-status='done' className="card" onClick={(e)=> changeStatus(e)} key={i}><p>{capitalizeFirstLetter(subtask)}</p></div>} )}
+                return <div id={subtask} data-status='done' data-key={focusedBoard.key} className="card" onClick={(e)=> changeStatus(e)} key={i}><p>{capitalizeFirstLetter(subtask)}</p></div>
+                
+            })}
+            <button id="done" onClick={(e)=>openCardWindow(e)}>+ Add Card</button>
         </div>
     )
 

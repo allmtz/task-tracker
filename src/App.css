@@ -91,7 +91,8 @@ body{
 }
 
 
-.addTaskWindow button{
+.addTaskWindow button,
+.add-card-window button{
   /* display: block; */
   margin-top: .5rem;
   padding: .5rem;
@@ -115,14 +116,17 @@ body{
 
 }
 
-.popupHeader{
+.popupHeader,
+.add-card-header{
   display: flex;
   align-items: center;
   justify-content: space-between;
 
 }
 
-.popupHeader button{
+.popupHeader button,
+.add-card-header button
+{
   margin-top: 0;
   border-radius: 0;
   border: none;
@@ -169,3 +173,5 @@ body{
   max-width: 10rem;
 
 }
+
+

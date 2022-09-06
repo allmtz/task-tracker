@@ -10,7 +10,7 @@ function Todo ( {focusedBoard, changeStatus, capitalizeFirstLetter, openCardWind
                 return <div id={subtask} data-status='todo' data-key={focusedBoard.key} className="card" onClick={(e)=> changeStatus(e)} key={i}><p>{capitalizeFirstLetter(subtask)}</p></div>
                 
             })}
-            <button id="todo" onClick={openCardWindow}>+ Add Card</button>
+            <button id="todo" onClick={(e)=>openCardWindow(e)}>+ Add Card</button>
         </div>
     )
 
