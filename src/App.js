@@ -25,10 +25,17 @@ function App() {
 
 
   const [boards, setBoards] = useState( [{
-      'title' : 'Shop',
-      'subtasks':['go to store','get cereal','get beer','buy toothpaste test long subtask names'],
-      'doing': ['homework','project 2'],
-      'done': ['shopping','planning'],
+      'title' : 'finish',
+      'subtasks': [
+        'style','add desc button',
+        'componetize?','lint errors'
+    ],
+      'doing': [
+        'homework','project 2'
+      ],
+      'done': [
+        'close popups on submit',
+      ],
       'key': 1,
 
     },
@@ -117,7 +124,7 @@ function App() {
 
     setBoards(newBoards)
 
-    // clearPopupInputs()   
+    closePopup()
   }
 
   function closePopup(){
@@ -130,7 +137,8 @@ function App() {
     console.log('cleared inputs')
     titleInput.current.value= ''
     descInput.current.value= ''
-    // subtaskInput.current.value= ''   //rewrite clear function
+    addCardInput.current.value = ''
+    subtaskInputContainer.current.childNodes.forEach(child => child.firstChild.value = '')
   }
 
   function changeStatus(e){
@@ -228,6 +236,7 @@ function App() {
 
       setBoards(boardClone)
     }
+    closePopup()
   }
 
   function openCardWindow(e){
