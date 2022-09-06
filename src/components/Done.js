@@ -2,7 +2,7 @@ function Done ( {focusedBoard, changeStatus, capitalizeFirstLetter, openCardWind
     let i = 0
     return(
         <div className="todo-container">
-            <h2>Done({focusedBoard.subtasks.length})</h2>
+            <h2>Done({focusedBoard.done.length})</h2>
             {focusedBoard.done.map( subtask=> {
                 i++
                 return <div id={subtask} data-status='done' data-key={focusedBoard.key} className="card" onClick={(e)=> changeStatus(e)} key={i}><p>{capitalizeFirstLetter(subtask)}</p></div>

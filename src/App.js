@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import BoardList from './components/BoardList';
 import CreateBoardBtn from './components/CreateBoardBtn';
 import Todo from './components/Todo';
@@ -7,7 +7,7 @@ import Doing from './components/Doing';
 import Done from './components/Done';
 
 
-import SubtaskInput from './components/SubtaskInput';
+// import SubtaskInput from './components/SubtaskInput';  maybe use later as a component
 
 
 function App() {
@@ -28,13 +28,14 @@ function App() {
       'title' : 'finish',
       'subtasks': [
         'style','add desc button',
-        'componetize?','lint errors'
+        'componetize?',
     ],
       'doing': [
         'homework','project 2'
       ],
       'done': [
         'close popups on submit',
+        'lint errors'
       ],
       'key': 1,
 
@@ -81,10 +82,6 @@ function App() {
   }
 
 
-  function deleteSubtask(e){
-    console.log('deleted the subtask')
-    console.log(e.target.parentNode.remove())
-  }
 
   function addSubtask(){
     subtaskInputContainer.current.innerHTML +=  "<div class='subInput-close'><input class='defaultInputBox' type='text'  /> <button class='deleteSubtaskBtn'>X</button></div>"
@@ -154,7 +151,7 @@ function App() {
       const updatedTodos = focusedBoard.subtasks.filter(task => task !== taskClicked)
           
       boardClone.forEach(board => {
-        if(board.key == objectID){
+        if( board.key === Number(objectID) ){
           board.subtasks = updatedTodos
           board.doing.push(taskClicked)
         }
@@ -169,7 +166,7 @@ function App() {
       const updatedTodos = focusedBoard.doing.filter(task => task !== taskClicked)
           
       boardClone.forEach(board => {
-        if(board.key == objectID){
+        if( board.key === Number(objectID) ){
           board.doing = updatedTodos
           board.done.push(taskClicked)
         }
@@ -184,7 +181,7 @@ function App() {
       const updatedTodos = focusedBoard.done.filter(task => task !== taskClicked)
           
       boardClone.forEach(board => {
-        if(board.key == objectID){
+        if( board.key === Number(objectID) ){
           board.done = updatedTodos
         }
 
@@ -197,15 +194,16 @@ function App() {
   }
 
   function createCard(){
-    console.log('added card')
-    console.log(cardType)
+    // console.log('added card')
+    // console.log(cardType)     determines what status the task has
     const boardClone=[...boards]
 
-    if(cardType == 'todo'){
+    if(cardType === 'todo'){
       const taskToAdd = addCardInput.current.value
 
       boardClone.forEach(board => {
-        if(board.key == focusedBoard.key){
+        if(board.key === focusedBoard.key){
+          // console.log(typeof board.key, typeof focusedBoard.key)
           board.subtasks.push(taskToAdd)
         }
       })
@@ -213,11 +211,11 @@ function App() {
       setBoards(boardClone)
     }
 
-    if(cardType == 'doing'){
+    if(cardType === 'doing'){
       const taskToAdd = addCardInput.current.value
 
       boardClone.forEach(board => {
-        if(board.key == focusedBoard.key){
+        if(board.key === focusedBoard.key){
           board.doing.push(taskToAdd)
         }
       })
@@ -225,11 +223,11 @@ function App() {
       setBoards(boardClone)
     }
 
-    if(cardType == 'done'){
+    if(cardType === 'done'){
       const taskToAdd = addCardInput.current.value
 
       boardClone.forEach(board => {
-        if(board.key == focusedBoard.key){
+        if(board.key === focusedBoard.key){
           board.done.push(taskToAdd)
         }
       })
@@ -250,8 +248,8 @@ function App() {
   }
 
   function deleteBoard(){
-    const indexOfDeletedTask = boards.indexOf(boards.find(board => board.key == focusedBoard.key))
-    const updatedTasks = boards.filter(board => board.key != focusedBoard.key)
+    const indexOfDeletedTask = boards.indexOf(boards.find(board => board.key === focusedBoard.key))
+    const updatedTasks = boards.filter(board => board.key !== focusedBoard.key)
     
     setBoards(updatedTasks)
 
@@ -267,15 +265,15 @@ function App() {
 
   }
   // TODOD implement useRef
-  const createBoardBtn = useRef(null) //might not need
-  const closePopupBtn = useRef(null)  //might not need
+  const createBoardBtn = useRef(null) 
+  const closePopupBtn = useRef(null)  
   const popupWindow = useRef(null)
   const titleInput = useRef(null)  
   const descInput = useRef(null) 
   const addCardWindow = useRef(null)
   const addCardInput = useRef(null)
 
-  const subtaskInput = useRef(null)   
+  // const subtaskInput = useRef(null)   
   const subtaskInputContainer = useRef(null)
 
   
@@ -336,9 +334,6 @@ function App() {
            <Todo  focusedBoard={focusedBoard} changeStatus={changeStatus} capitalizeFirstLetter={capitalizeFirstLetter} openCardWindow={openCardWindow} />
            <Doing focusedBoard={focusedBoard} changeStatus={changeStatus} capitalizeFirstLetter={capitalizeFirstLetter} openCardWindow={openCardWindow} />
            <Done  focusedBoard={focusedBoard} changeStatus={changeStatus} capitalizeFirstLetter={capitalizeFirstLetter} openCardWindow={openCardWindow} />
-           {/* <AddColumn />  */}
-
-          
           </div>
       </div>
 
