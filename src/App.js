@@ -29,13 +29,16 @@ function App() {
       'subtasks': [
         'style','add desc button',
         'componetize?',
+        'form submisson'
     ],
       'doing': [
         'homework','project 2'
       ],
       'done': [
         'close popups on submit',
-        'lint errors'
+        'lint errors',
+        'form validation'
+        
       ],
       'key': 1,
 
@@ -102,26 +105,31 @@ function App() {
       subtasks.push(ele.firstChild.value)
     })
 
-    console.log(subtasks)
 
+    if(titleInput.current.value === '' || descInput.current.value === '' || descInput.current.value.trim()=== '' || titleInput.current.value.trim()===''){
+      alert('Please make sure the Description and Title sections are filled in')
+      return
+    }
 
+   
     const newTask = 
-      {
-        'title' : titleInput.current.value,
-        'desc': descInput.current.value,
-        'subtasks': subtasks,
-        'doing': [],
-        'done': [],
-        'key': Date.now(),
-    
-      }
-    
+    {
+      'title' : titleInput.current.value,
+      'desc': descInput.current.value,
+      'subtasks': subtasks,
+      'doing': [],
+      'done': [],
+      'key': Date.now(),
+  
+    }
+  
 
     const newBoards = [...boards,newTask]
 
     setBoards(newBoards)
 
     closePopup()
+
   }
 
   function closePopup(){
@@ -197,6 +205,11 @@ function App() {
     // console.log('added card')
     // console.log(cardType)     determines what status the task has
     const boardClone=[...boards]
+
+    if(addCardInput.current.value === '' || addCardInput.current.value.trim()=== '' ){
+      alert('Fill in a task')
+      return
+    }
 
     if(cardType === 'todo'){
       const taskToAdd = addCardInput.current.value
