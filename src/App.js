@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import BoardList from './components/BoardList';
 import CreateBoardBtn from './components/CreateBoardBtn';
 import Todo from './components/Todo';
@@ -24,12 +24,50 @@ function App() {
   }
 
 
-  const [boards, setBoards] = useState( [{
+//   [
+  //     {
+  //   'title' : 'finish',
+  //   'subtasks': [
+  //     'style','add desc button',
+  //     'componetize?',
+  //     'form submisson',
+  //     'local storage'
+  // ],
+  //   'doing': [
+  //     'homework','project 2'
+  //   ],
+  //   'done': [
+  //     'close popups on submit',
+  //     'lint errors',
+  //     'form validation'
+      
+  //   ],
+  //   'key': 1,
+
+  // },
+  // {
+  //   'title' : 'study',
+  //   'subtasks':['react','quiz friday','get beer','all nighter'],
+  //   'doing': ['hooks','usestate','useeffect','es6','callbacks'],
+  //   'done': ['flex','box','popup'],
+  //   'key': 2,
+  // },
+//   {
+//     'title' : 'make a sandwich',
+//     'subtasks':['sourdough','turkey','sharp ched','heirloom tom', 'avo','s&P'],
+//     'doing': ['buying bread'],
+//     'done': ['buying avo'],
+//     'key': 3,
+//   }
+// ]
+
+  const defaultBoards = [  
+    {
       'title' : 'finish',
       'subtasks': [
         'style','add desc button',
         'componetize?',
-        'form submisson'
+        'form submisson',
     ],
       'doing': [
         'homework','project 2'
@@ -37,29 +75,30 @@ function App() {
       'done': [
         'close popups on submit',
         'lint errors',
-        'form validation'
+        'form validation',
+        'local storage'
+
         
       ],
       'key': 1,
-
-    },
-    {
-      'title' : 'study',
-      'subtasks':['react','quiz friday','get beer','all nighter'],
-      'doing': ['hooks','usestate','useeffect','es6','callbacks'],
-      'done': ['flex','box','popup'],
-      'key': 2,
-    },
-    {
-      'title' : 'make a sandwich',
-      'subtasks':['sourdough','turkey','sharp ched','heirloom tom', 'avo','s&P'],
-      'doing': ['buying bread'],
-      'done': ['buying avo'],
-      'key': 3,
-    }
-  ])
   
+    },
+  ]
+
+  const [boards, setBoards] = useState( () => {
+    const savedBoards = localStorage.getItem('boards')
+    const initialBoards = JSON.parse(savedBoards)
+
+    return initialBoards || defaultBoards
+  } )  
+
+
   const[focusedBoard, setFocusedBoard] = useState(boards[0])
+
+  useEffect( () => {
+      localStorage.setItem('boards', JSON.stringify(boards))
+   })
+
   
 
   function createBoard(){
