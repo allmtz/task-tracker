@@ -89,7 +89,12 @@ function App() {
     const savedBoards = localStorage.getItem('boards')
     const initialBoards = JSON.parse(savedBoards)
 
-    return initialBoards || defaultBoards
+    if(initialBoards.length === 0){
+      return defaultBoards
+    }  
+    else{
+      return initialBoards
+    }
   } )  
 
 
@@ -372,15 +377,14 @@ function App() {
       </div>
 
       <div className="sidebar">
-        <h1>sidebar</h1>
-        <BoardList boards = {boards} focusBoard={focusBoard} />
+        <BoardList boards = {boards} focusBoard={focusBoard} capitalizeFirstLetter={capitalizeFirstLetter} />
         <CreateBoardBtn crerateBoardBtn={createBoardBtn} createBoard= {createBoard}/>
       </div>
 
       <div className="body">
         <div className="header">
-          <h1>{ focusedBoard.title.split(' ').map(word=>capitalizeFirstLetter(word)).join(' ') }</h1>
-          <button onClick={ ()=>deleteBoard() }>Delete Board</button>
+          <h1>{ focusedBoard.title.split(' ').map(word=>capitalizeFirstLetter(word)).join(' ') }</h1> 
+          <i onClick={ ()=>deleteBoard() } class="trashcan fa-solid fa-trash-can"></i>
         </div>
         <div className="main">
            <Todo  focusedBoard={focusedBoard} changeStatus={changeStatus} capitalizeFirstLetter={capitalizeFirstLetter} openCardWindow={openCardWindow} />
