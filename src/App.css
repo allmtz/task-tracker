@@ -191,6 +191,8 @@ ul{
   padding: .5rem;
   margin-top: .7rem;
   cursor: pointer;
+  max-width: 200px;
+  word-wrap: break-word;
 }
 
 .add-card-btn,
