@@ -8,7 +8,7 @@ function Done ( {focusedBoard, changeStatus, capitalizeFirstLetter, openCardWind
                 return <div id={subtask} data-status='done' data-key={focusedBoard.key} className="card" onClick={(e)=> changeStatus(e)} key={i}><p>{capitalizeFirstLetter(subtask)}</p></div>
                 
             })}
-            <button id="done" onClick={(e)=>openCardWindow(e)}>+ Add Card</button>
+            <button className='add-card-btn' id="done" onClick={(e)=>openCardWindow(e)}>+ Add Card</button>
         </div>
     )
 

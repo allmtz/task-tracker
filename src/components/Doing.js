@@ -6,7 +6,7 @@ function Doing ( {focusedBoard, changeStatus, capitalizeFirstLetter, openCardWin
             {focusedBoard.doing.map( task=> {
                 i++
                 return <div id={task} className="card" data-status='doing' data-key={focusedBoard.key} onClick={(e)=> changeStatus(e)} key={i}><p>{capitalizeFirstLetter(task)}</p></div>} )}
-            <button id="doing" onClick={(e)=>openCardWindow(e)}>+ Add Card</button>
+            <button className='add-card-btn' id="doing" onClick={(e)=>openCardWindow(e)}>+ Add Card</button>
 
         </div>
     )
