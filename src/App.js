@@ -82,8 +82,6 @@ function App() {
     });
 
     if (
-      titleInput.current.value === "" ||
-      descInput.current.value === "" ||
       descInput.current.value.trim() === "" ||
       titleInput.current.value.trim() === ""
     ) {
@@ -176,11 +174,11 @@ function App() {
     }
   }
 
-  function createCard() {
+  function createCard(e) {
+    e.preventDefault()
     const boardClone = [...boards];
 
     if (
-      addCardInput.current.value === "" ||
       addCardInput.current.value.trim() === ""
     ) {
       alert("Fill in a task");
@@ -276,35 +274,35 @@ function App() {
             </button>
           </div>
           <p>Title</p>
-          <input
-            ref={titleInput}
-            className="defaultInputBox"
-            type="text"
-            name=""
-            id=""
-            placeholder="e.g take a coffee break"
-          />
-          <p>Description</p>
-          <textarea
-            ref={descInput}
-            className="descInputBox"
-            placeholder="e.g. its always good to take a break"
-            name=""
-            id=""
-            cols="30"
-            rows="10"
-          ></textarea>
-          <p>Subtasks</p>
-          <div ref={subtaskInputContainer} className="subtaskContainer">
-            <div className="subInput-close">
-              <input className="defaultInputBox" type="text" />
-              <button className="deleteSubtaskBtn">X</button>
-            </div>
-          </div>
-          <button onClick={() => addSubtask()}>+ Add New Subtask</button>
-          <button type="submit" onClick={() => createTask()}>
-            Create Task
-          </button>
+              <input
+                ref={titleInput}
+                className="defaultInputBox"
+                type="text"
+                name=""
+                id=""
+                placeholder="e.g take a coffee break"
+              />
+              <p>Description</p>
+              <textarea
+                ref={descInput}
+                className="descInputBox"
+                placeholder="e.g. its always good to take a break"
+                name=""
+                id=""
+                cols="30"
+                rows="10"
+              ></textarea>
+              <p>Subtasks</p>
+              <div ref={subtaskInputContainer} className="subtaskContainer">
+                <div className="subInput-close">
+                  <input className="defaultInputBox" type="text" />
+                  <button className="deleteSubtaskBtn">X</button>
+                </div>
+              </div>
+                <button onClick={() => addSubtask()}>+ Add New Subtask</button>
+                <button type="submit" onClick={() => createTask()}>
+                  Create Task
+                </button>
         </div>
       </div>
 
@@ -317,19 +315,21 @@ function App() {
             </button>
           </div>
           <p>What's Next ?</p>
-          <div className="subtaskContainer">
-            <div className="subInput-close">
-              <input
-                ref={addCardInput}
-                className="defaultInputBox"
-                type="text"
-              />
-            </div>
+          <form>
+              <div className="subtaskContainer">
+                <div className="subInput-close">
+                  <input
+                    ref={addCardInput}
+                    className="defaultInputBox"
+                    type="text"
+                  />
+                </div>
+              </div>
+              <button type="submit" onClick={(e) => createCard(e)}>
+                Create Card
+              </button>
+            </form>
           </div>
-          <button type="submit" onClick={() => createCard()}>
-            Create Card
-          </button>
-        </div>
       </div>
 
       <div className="sidebar">
@@ -354,7 +354,7 @@ function App() {
           </h1>
           <i
             onClick={() => deleteBoard()}
-            class="trashcan fa-solid fa-trash-can"
+            className="trashcan fa-solid fa-trash-can"
           ></i>
         </div>
         <div className="main">
