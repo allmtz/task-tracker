@@ -5,6 +5,9 @@ import CreateBoardBtn from "./components/CreateBoardBtn";
 import Todo from "./components/Todo";
 import Doing from "./components/Doing";
 import Done from "./components/Done";
+import Header from "./components/Header";
+import AddCardPopup from "./AddCardPopup";
+import CreateBoardPopup from "./components/CreateBoardPopup";
 
 function App() {
   let cardType = "";
@@ -175,12 +178,10 @@ function App() {
   }
 
   function createCard(e) {
-    e.preventDefault()
+    e.preventDefault();
     const boardClone = [...boards];
 
-    if (
-      addCardInput.current.value.trim() === ""
-    ) {
+    if (addCardInput.current.value.trim() === "") {
       alert("Fill in a task");
       return;
     }
@@ -264,73 +265,25 @@ function App() {
   const subtaskInputContainer = useRef(null);
 
   return (
+    // popupWindow, closePopupBtn, titleInput, descInput, subtaskInputContainer, addSubtask, createTask
     <div className="container">
-      <div ref={popupWindow} className="popupContainer">
-        <div className="addTaskWindow">
-          <div className="popupHeader">
-            <h3>Add New Task</h3>
-            <button ref={closePopupBtn} onClick={() => closePopup()}>
-              X
-            </button>
-          </div>
-          <p>Title</p>
-              <input
-                ref={titleInput}
-                className="defaultInputBox"
-                type="text"
-                name=""
-                id=""
-                placeholder="e.g take a coffee break"
-              />
-              <p>Description</p>
-              <textarea
-                ref={descInput}
-                className="descInputBox"
-                placeholder="e.g. its always good to take a break"
-                name=""
-                id=""
-                cols="30"
-                rows="10"
-              ></textarea>
-              <p>Subtasks</p>
-              <div ref={subtaskInputContainer} className="subtaskContainer">
-                <div className="subInput-close">
-                  <input className="defaultInputBox" type="text" />
-                  <button className="deleteSubtaskBtn">X</button>
-                </div>
-              </div>
-                <button onClick={() => addSubtask()}>+ Add New Subtask</button>
-                <button type="submit" onClick={() => createTask()}>
-                  Create Task
-                </button>
-        </div>
-      </div>
-
-      <div ref={addCardWindow} className="add-card-container">
-        <div className="add-card-window">
-          <div className="add-card-header">
-            <h3>Add New Card</h3>
-            <button ref={closePopupBtn} onClick={() => closePopup()}>
-              X
-            </button>
-          </div>
-          <p>What's Next ?</p>
-          <form>
-              <div className="subtaskContainer">
-                <div className="subInput-close">
-                  <input
-                    ref={addCardInput}
-                    className="defaultInputBox"
-                    type="text"
-                  />
-                </div>
-              </div>
-              <button type="submit" onClick={(e) => createCard(e)}>
-                Create Card
-              </button>
-            </form>
-          </div>
-      </div>
+      <CreateBoardPopup
+        popupWindow={popupWindow}
+        closePopupBtn={closePopupBtn}
+        closePopup={closePopup}
+        titleInput={titleInput}
+        descInput={descInput}
+        subtaskInputContainer={subtaskInputContainer}
+        addSubtask={addSubtask}
+        createTask={createTask}
+      />
+      <AddCardPopup
+        closePopup={closePopup}
+        createCard={createCard}
+        addCardInput={addCardInput}
+        addCardWindow={addCardWindow}
+        closePopupBtn={closePopupBtn}
+      />
 
       <div className="sidebar">
         <BoardList
@@ -345,18 +298,11 @@ function App() {
       </div>
 
       <div className="body">
-        <div className="header">
-          <h1>
-            {focusedBoard.title
-              .split(" ")
-              .map((word) => capitalizeFirstLetter(word))
-              .join(" ")}
-          </h1>
-          <i
-            onClick={() => deleteBoard()}
-            className="trashcan fa-solid fa-trash-can"
-          ></i>
-        </div>
+        <Header
+          focusedBoard={focusedBoard}
+          capitalizeFirstLetter={capitalizeFirstLetter}
+          deleteBoard={deleteBoard}
+        />
         <div className="main">
           <Todo
             focusedBoard={focusedBoard}
