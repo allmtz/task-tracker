@@ -28,7 +28,7 @@ function CreateBoardPopup( {popupWindow, closePopupBtn, closePopup, titleInput, 
                 cols="30"
                 rows="10"
               ></textarea>
-              <p>Subtasks</p>
+              <p>todo</p>
               <div ref={subtaskInputContainer} className="subtaskContainer">
                 <div className="subInput-close">
                   <input className="defaultInputBox" type="text" />

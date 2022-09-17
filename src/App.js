@@ -14,7 +14,7 @@ function App() {
 
   const backup = {
     title: "...There's always netflix ?",
-    subtasks: [],
+    todo: [],
     doing: [],
     done: [],
     key: 1,
@@ -22,7 +22,7 @@ function App() {
   const defaultBoards = [
     {
       title: "finish",
-      subtasks: ["style", "add desc button", "componetize?", "form submisson"],
+      todo: ["style", "add desc button", "componetize?", "form submisson"],
       doing: ["homework", "project 2"],
       done: [
         "close popups on submit",
@@ -30,7 +30,7 @@ function App() {
         "form validation",
         "local storage",
       ],
-      key: 1,
+      key: 2,
     },
   ];
 
@@ -38,11 +38,10 @@ function App() {
     const savedBoards = localStorage.getItem("boards");
     const initialBoards = JSON.parse(savedBoards);
 
-    if (initialBoards.length === 0) {
+    if (initialBoards === null || initialBoards.length === 0) {
       return defaultBoards;
-    } else {
-      return initialBoards;
     }
+    return initialBoards;
   });
 
   const [focusedBoard, setFocusedBoard] = useState(boards[0]);
@@ -52,9 +51,7 @@ function App() {
   });
 
   function createBoard() {
-    console.log("created board");
-    popupWindow.current.style.display = "flex";
-    clearPopupInputs();
+        popupWindow.current.style.display = "flex";
   }
 
   function focusBoard(e) {
@@ -76,12 +73,12 @@ function App() {
   }
 
   function createTask() {
-    const subtasks = [];
+    const todo = [];
     subtaskInputContainer.current.childNodes.forEach((ele) => {
       if (ele.firstChild.value === "") {
         return;
       }
-      subtasks.push(ele.firstChild.value);
+      todo.push(ele.firstChild.value);
     });
 
     if (
@@ -97,7 +94,7 @@ function App() {
     const newTask = {
       title: titleInput.current.value,
       desc: descInput.current.value,
-      subtasks: subtasks,
+      todo: todo,
       doing: [],
       done: [],
       key: Date.now(),
@@ -129,98 +126,41 @@ function App() {
   function changeStatus(e) {
     const status = e.target.closest(".card").getAttribute("data-status");
     const taskClicked = e.target.closest(".card").id;
-    const objectID = e.target.closest(".card").getAttribute("data-key");
     const boardClone = [...boards];
+    const updatedTodos = focusedBoard[status].filter(                   //removes the task clicked from its corresponding array(todo doing or done)
+      (task) => task !== taskClicked
+    );
 
-    if (status === "todo") {
-      const updatedTodos = focusedBoard.subtasks.filter(
-        (task) => task !== taskClicked
-      );
+    focusedBoard[status] = updatedTodos;                                //update the focused boards todo doing or done array
 
-      boardClone.forEach((board) => {
-        if (board.key === Number(objectID)) {
-          board.subtasks = updatedTodos;
-          board.doing.push(taskClicked);
-        }
-      });
-
-      setBoards(boardClone);
+    if (status === "todo") {                                            //move the task clicked to the next status
+      focusedBoard.doing.push(taskClicked);
     }
 
     if (status === "doing") {
-      const updatedTodos = focusedBoard.doing.filter(
-        (task) => task !== taskClicked
-      );
-
-      boardClone.forEach((board) => {
-        if (board.key === Number(objectID)) {
-          board.doing = updatedTodos;
-          board.done.push(taskClicked);
-        }
-      });
-
-      setBoards(boardClone);
+      focusedBoard.done.push(taskClicked);
     }
-
-    if (status === "done") {
-      const updatedTodos = focusedBoard.done.filter(
-        (task) => task !== taskClicked
-      );
-
-      boardClone.forEach((board) => {
-        if (board.key === Number(objectID)) {
-          board.done = updatedTodos;
-        }
-      });
-
-      setBoards(boardClone);
-    }
+    setBoards(boardClone);
   }
 
   function createCard(e) {
     e.preventDefault();
     const boardClone = [...boards];
+    const taskToAdd = addCardInput.current.value;
 
     if (addCardInput.current.value.trim() === "") {
       alert("Fill in a task");
       return;
     }
 
-    if (cardType === "todo") {
-      const taskToAdd = addCardInput.current.value;
+    boardClone.forEach((board) => {
+      if (board.key === focusedBoard.key) {         //finds the board thats currently being displayed
+        board[cardType].push(taskToAdd);            //adds a card to the 'todo' 'doing' or 'done' array
+      }
+    });
 
-      boardClone.forEach((board) => {
-        if (board.key === focusedBoard.key) {
-          board.subtasks.push(taskToAdd);
-        }
-      });
+    setBoards(boardClone);
 
-      setBoards(boardClone);
-    }
-
-    if (cardType === "doing") {
-      const taskToAdd = addCardInput.current.value;
-
-      boardClone.forEach((board) => {
-        if (board.key === focusedBoard.key) {
-          board.doing.push(taskToAdd);
-        }
-      });
-
-      setBoards(boardClone);
-    }
-
-    if (cardType === "done") {
-      const taskToAdd = addCardInput.current.value;
-
-      boardClone.forEach((board) => {
-        if (board.key === focusedBoard.key) {
-          board.done.push(taskToAdd);
-        }
-      });
-
-      setBoards(boardClone);
-    }
     closePopup();
   }
 
@@ -244,14 +184,14 @@ function App() {
 
     setBoards(updatedTasks);
 
-    if (updatedTasks[indexOfDeletedTask + 1] === undefined) {
-      if (updatedTasks[0] === undefined || updatedTasks === []) {
+    if (updatedTasks[indexOfDeletedTask] === undefined) {                         //sets a new focusedBoard when the current one is deleted
+      if (updatedTasks[0] === undefined || updatedTasks === []) {                //if there are no boards left after deletion ==> use a backup/default board
         setFocusedBoard(backup);
-      } else {
+      } else {                                                                  //if the board in the last position of the array is deleted ==> set the foucsedBoard to the first board in the array
         setFocusedBoard(updatedTasks[0]);
       }
-    } else {
-      setFocusedBoard(updatedTasks[indexOfDeletedTask + 1]);
+    } else {                                                                    //if the index of the deleted board still exists i.e. a board in the middle of the array was deleted==> set the focusedBoard to the new element in that position
+      setFocusedBoard(updatedTasks[indexOfDeletedTask]);
     }
   }
 
@@ -265,7 +205,6 @@ function App() {
   const subtaskInputContainer = useRef(null);
 
   return (
-    // popupWindow, closePopupBtn, titleInput, descInput, subtaskInputContainer, addSubtask, createTask
     <div className="container">
       <CreateBoardPopup
         popupWindow={popupWindow}
