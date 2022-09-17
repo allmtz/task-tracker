@@ -1,4 +1,4 @@
-function Header({ focusedBoard, capitalizeFirstLetter, deleteBoard }) {
+function Header({ focusedBoard, capitalizeFirstLetter, deleteBoard, openDesc }) {
   return (
     <div className="header">
       <h1>
@@ -8,8 +8,12 @@ function Header({ focusedBoard, capitalizeFirstLetter, deleteBoard }) {
           .join(" ")}
       </h1>
       <i
+        onClick={() => openDesc()} 
+        className="icon info fa-solid fa-circle-info"
+      ></i>
+      <i
         onClick={() => deleteBoard()}
-        className="trashcan fa-solid fa-trash-can"
+        className="icon trashcan fa-solid fa-trash-can"
       ></i>
     </div>
   );

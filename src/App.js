@@ -8,29 +8,32 @@ import Done from "./components/Done";
 import Header from "./components/Header";
 import AddCardPopup from "./AddCardPopup";
 import CreateBoardPopup from "./components/CreateBoardPopup";
+import DescPopup from "./components/DescPopup";
 
 function App() {
   let cardType = "";
 
   const backup = {
-    title: "...There's always netflix ?",
+    title: "...There's always Netflix ?",
     todo: [],
     doing: [],
     done: [],
     key: 1,
+    desc: "Don't forget Snacks !"
   };
   const defaultBoards = [
     {
-      title: "finish",
-      todo: ["style", "add desc button", "componetize?", "form submisson"],
-      doing: ["homework", "project 2"],
-      done: [
-        "close popups on submit",
-        "lint errors",
-        "form validation",
-        "local storage",
+      title: "Built with react",
+      todo: [
+        "Click Me!",
+        "Add a card to any column",
+        "Create a new Board with a custom title, description and subtasks",
+        "View and edit any description by clicking the info icon"
       ],
+      doing: [],
+      done: [],
       key: 2,
+      desc:'"To improve is to change; to be perfect is to change often." \n-Winston Churchill',
     },
   ];
 
@@ -195,6 +198,28 @@ function App() {
     }
   }
 
+  function openDesc(){
+    descWindow.current.style.display = 'flex'
+    editDescBox.current.value = focusedBoard.desc
+
+  }
+
+  function closeDescPopup(){
+    const newDesc = editDescBox.current.value
+
+    const boardsClone = [...boards]
+
+    boardsClone.forEach( board => {
+      if (Number(board.key) === focusedBoard.key){
+        board.desc = newDesc
+      }
+    })
+    
+    setBoards(boardsClone)
+
+    descWindow.current.style.display = "none";
+  }
+
   const createBoardBtn = useRef(null);
   const closePopupBtn = useRef(null);
   const popupWindow = useRef(null);
@@ -203,6 +228,8 @@ function App() {
   const addCardWindow = useRef(null);
   const addCardInput = useRef(null);
   const subtaskInputContainer = useRef(null);
+  const descWindow= useRef(null);
+  const editDescBox= useRef(null);
 
   return (
     <div className="container">
@@ -223,6 +250,11 @@ function App() {
         addCardWindow={addCardWindow}
         closePopupBtn={closePopupBtn}
       />
+      <DescPopup 
+        descWindow={descWindow} 
+        editDescBox={editDescBox} 
+        closeDescPopup={closeDescPopup} 
+      /> 
 
       <div className="sidebar">
         <BoardList
@@ -241,6 +273,7 @@ function App() {
           focusedBoard={focusedBoard}
           capitalizeFirstLetter={capitalizeFirstLetter}
           deleteBoard={deleteBoard}
+          openDesc={openDesc}
         />
         <div className="main">
           <Todo

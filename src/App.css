@@ -63,17 +63,39 @@ ul {
 
 /* everything popup */
 .popupContainer,
-.add-card-container {
+.add-card-container,
+.desc-container {
   position: absolute;
   height: 100%;
-  width: 100%;
-  display: none;
-  /*chage to none or flex*/
+  width: 100%;            /*chage to none or flex*/
+  display: none;              
   justify-content: center;
   align-items: center;
   color: whitesmoke;
 
   background-color: rgba(8, 8, 20, 0.644);
+}
+
+.desc-container{
+  flex-direction: column;
+}
+
+.desc-card {
+  background-color: var(--sidebar-bg-color);
+  padding: 1.5rem;
+  max-width: 20rem;
+  border-radius: 5px;
+}
+
+.desc-container button {
+  cursor: pointer;
+  width: 100%;
+  height: 15%;
+}
+
+.edit-desc-box {
+  margin: .5rem 0 .5rem 0;
+  width: 100%;
 }
 
 .addTaskWindow,
@@ -97,7 +119,8 @@ ul {
   width: 100%;
 }
 
-.descInputBox {
+.descInputBox,
+.edit-desc-box {
   outline: none;
   padding: 0.5rem;
   border-radius: 3px;
@@ -151,7 +174,7 @@ ul {
 }
 
 /* header */
-.trashcan {
+.icon {
   font-size: 1.5rem;
   color: whitesmoke;
   align-self: center;
@@ -160,6 +183,10 @@ ul {
 
 .trashcan:hover {
   color: red;
+}
+
+.info:hover {
+  color: green;
 }
 
 /* sidebar */
