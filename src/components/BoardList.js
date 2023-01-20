@@ -35,7 +35,7 @@ function BoardList( {boards, focusBoard, capitalizeFirstLetter, boardsListWindow
                         )
                     }
                 </ul>
-                <LightDarkToggle />
+                {/* <LightDarkToggle /> */}
             </div>
         </div>
     )

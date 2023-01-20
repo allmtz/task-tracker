@@ -8,7 +8,7 @@ function toggleMode(){
     document.body.querySelector(".container").classList.toggle("light")
   }
 
-export const LightDarkToggle = () => {
+ const LightDarkToggle = () => {
     return(
         <div className="switch-container">
             <img className="mode-icon dark-icon" src={darkIcon} alt="dark icon" />
@@ -20,3 +20,5 @@ export const LightDarkToggle = () => {
         </div>
     )
 }
+
+export default LightDarkToggle
