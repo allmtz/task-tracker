@@ -8,8 +8,8 @@
 import "./App.css";
 import React, { useEffect, useRef, useState } from "react";
 import BoardList from "./components/BoardList";
-import CreateBoardBtn from "./components/CreateBoardBtn";
-import Header from "./components/Header";
+// import CreateBoardBtn from "./components/CreateBoardBtn";
+import Nav from "./components/Nav";
 import AddCardPopup from "./components/AddCardPopup";
 import CreateBoardPopup from "./components/CreateBoardPopup";
 import DescPopup from "./components/DescPopup";
@@ -18,6 +18,11 @@ import DescPopup from "./components/DescPopup";
 import addTask from './assets/icon-add-task-mobile.svg'
 import { EmptyBoardPrompt } from "./components/EmptyBoardPrompt";
 import { BoardDisplay } from "./components/BoardDisplay";
+
+
+export function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 function App() {
   let cardType = "";
@@ -196,20 +201,19 @@ function App() {
     cardType = e.target.id;
   }
 
-  function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
 
   function deleteBoard() {
+    const wantsToDelete = window.confirm(`Are you sure you want to delete the "${focusedBoard.title}" board? This action will remove all of the columns and cannot be reversed`)
+   if(wantsToDelete ){
     const indexOfDeletedTask = boards.indexOf(
       boards.find((board) => board.key === focusedBoard.key)
     );
     const updatedTasks = boards.filter(
       (board) => board.key !== focusedBoard.key
     );
-
+  
     setBoards(updatedTasks);
-
+  
     if (updatedTasks[indexOfDeletedTask] === undefined) {                         //sets a new focusedBoard when the current one is deleted
       if (updatedTasks[0] === undefined || updatedTasks === []) {                //if there are no boards left after deletion ==> use a backup/default board
         setFocusedBoard(backup);
@@ -219,6 +223,11 @@ function App() {
     } else {                                                                    //if the index of the deleted board still exists i.e. a board in the middle of the array was deleted==> set the focusedBoard to the new element in that position
       setFocusedBoard(updatedTasks[indexOfDeletedTask]);
     }
+  
+    closeDescPopup()
+  }
+
+  return 
   }
 
   function openDesc(){
@@ -228,22 +237,23 @@ function App() {
   }
 
   function closeDescPopup(){
-    const newDesc = editDescBox.current.value
+    // this was updating the description text when a board was deleted.
+    // const newDesc = editDescBox.current.value
 
-    const boardsClone = [...boards]
+    // const boardsClone = [...boards]
 
-    boardsClone.forEach( board => {
-      if (Number(board.key) === focusedBoard.key){
-        board.desc = newDesc
-      }
-    })
+    // boardsClone.forEach( board => {
+    //   if (Number(board.key) === focusedBoard.key){
+    //     board.desc = newDesc
+    //   }
+    // })
     
-    setBoards(boardsClone)
+    // setBoards(boardsClone)
 
     descWindow.current.style.display = "none";
   }
 
-  function displayBoardsList(){
+  function openBoardList(){
     boardsListWindowRef.current.style.display = "flex"
   }
 
@@ -288,23 +298,19 @@ function App() {
           focusedBoard={focusedBoard}
         />
 
-      {/* <DescPopup 
+      <DescPopup 
         descWindow={descWindow} 
         editDescBox={editDescBox} 
         closeDescPopup={closeDescPopup} 
-      />  */}
-
+        deleteBoard={deleteBoard}
+      /> 
     
       <div className="body">
-        <Header
+        <Nav
           focusedBoard={focusedBoard}
-          capitalizeFirstLetter={capitalizeFirstLetter}
-          deleteBoard={deleteBoard}
           openDesc={openDesc}
           openCreateBoard={openCreateBoard}
-          // createBoardBtn={createBoardBtn}
-          displayBoardsList={displayBoardsList}
-          createTask={createTask}
+          openBoardList={openBoardList}
         />
         <main>
        
