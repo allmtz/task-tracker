@@ -1,14 +1,23 @@
+// TODO 
+// figure out which refs can be deleted
+// define functions outside of App()
+// keep defaultBoards ?
+// organize
+// check all components
+
 import "./App.css";
 import React, { useEffect, useRef, useState } from "react";
 import BoardList from "./components/BoardList";
 import CreateBoardBtn from "./components/CreateBoardBtn";
-import Todo from "./components/Todo";
-import Doing from "./components/Doing";
-import Done from "./components/Done";
 import Header from "./components/Header";
-import AddCardPopup from "./AddCardPopup";
+import AddCardPopup from "./components/AddCardPopup";
 import CreateBoardPopup from "./components/CreateBoardPopup";
 import DescPopup from "./components/DescPopup";
+
+// CHANGES 
+import addTask from './assets/icon-add-task-mobile.svg'
+import { EmptyBoardPrompt } from "./components/EmptyBoardPrompt";
+import { BoardDisplay } from "./components/BoardDisplay";
 
 function App() {
   let cardType = "";
@@ -42,32 +51,37 @@ function App() {
     const initialBoards = JSON.parse(savedBoards);
 
     if (initialBoards === null || initialBoards.length === 0) {
-      return defaultBoards;
+      // return defaultBoards;
+      return null
     }
     return initialBoards;
   });
 
-  const [focusedBoard, setFocusedBoard] = useState(boards[0]);
+  const [focusedBoard, setFocusedBoard] = useState(
+      boards !== null ? boards[0] : null
+    );
 
   useEffect(() => {
     localStorage.setItem("boards", JSON.stringify(boards));
   });
 
-  function createBoard() {
+  function openCreateBoard() {
         popupWindow.current.style.display = "flex";
   }
 
   function focusBoard(e) {
-    const id = e.target.id;
+    const id = e.target.closest(".board-list-item").id;
     const focusedBoard = boards.filter((board) => id === String(board.key))[0];
 
     setFocusedBoard(focusedBoard);
     console.log("focused");
   }
 
-  function addSubtask() {
+  function addSubtask(e) {
+    e.preventDefault()
+
     subtaskInputContainer.current.innerHTML +=
-      "<div class='subInput-close'><input class='defaultInputBox' type='text'  /> <button class='deleteSubtaskBtn'>X</button></div>";
+      "<div class='subtask'><input type='text'  /> <button class='delete-subtask-btn'>X</button></div>";
     subtaskInputContainer.current.childNodes.forEach((ele) => {
       ele.lastChild.addEventListener("click", (e) => {
         e.target.parentNode.remove();
@@ -75,7 +89,10 @@ function App() {
     });
   }
 
-  function createTask() {
+  function createTask(e) {
+    e.preventDefault()
+    let newBoards
+
     const todo = [];
     subtaskInputContainer.current.childNodes.forEach((ele) => {
       if (ele.firstChild.value === "") {
@@ -103,9 +120,15 @@ function App() {
       key: Date.now(),
     };
 
-    const newBoards = [...boards, newTask];
+    if(boards){
+      newBoards = [...boards, newTask];
+    }
+    else{
+      newBoards = [newTask]
+    }
 
     setBoards(newBoards);
+    setFocusedBoard(newBoards[newBoards.length - 1])
 
     closePopup();
   }
@@ -220,7 +243,11 @@ function App() {
     descWindow.current.style.display = "none";
   }
 
-  const createBoardBtn = useRef(null);
+  function displayBoardsList(){
+    boardsListWindowRef.current.style.display = "flex"
+  }
+
+  // const createBoardBtn = useRef(null);
   const closePopupBtn = useRef(null);
   const popupWindow = useRef(null);
   const titleInput = useRef(null);
@@ -230,6 +257,7 @@ function App() {
   const subtaskInputContainer = useRef(null);
   const descWindow= useRef(null);
   const editDescBox= useRef(null);
+  const boardsListWindowRef = useRef(null);
 
   return (
     <div className="container">
@@ -243,6 +271,7 @@ function App() {
         addSubtask={addSubtask}
         createTask={createTask}
       />
+
       <AddCardPopup
         closePopup={closePopup}
         createCard={createCard}
@@ -250,51 +279,48 @@ function App() {
         addCardWindow={addCardWindow}
         closePopupBtn={closePopupBtn}
       />
-      <DescPopup 
-        descWindow={descWindow} 
-        editDescBox={editDescBox} 
-        closeDescPopup={closeDescPopup} 
-      /> 
 
-      <div className="sidebar">
-        <BoardList
+      <BoardList
           boards={boards}
           focusBoard={focusBoard}
           capitalizeFirstLetter={capitalizeFirstLetter}
+          boardsListWindowRef={boardsListWindowRef}
+          focusedBoard={focusedBoard}
         />
-        <CreateBoardBtn
-          crerateBoardBtn={createBoardBtn}
-          createBoard={createBoard}
-        />
-      </div>
 
+      {/* <DescPopup 
+        descWindow={descWindow} 
+        editDescBox={editDescBox} 
+        closeDescPopup={closeDescPopup} 
+      />  */}
+
+    
       <div className="body">
         <Header
           focusedBoard={focusedBoard}
           capitalizeFirstLetter={capitalizeFirstLetter}
           deleteBoard={deleteBoard}
           openDesc={openDesc}
+          openCreateBoard={openCreateBoard}
+          // createBoardBtn={createBoardBtn}
+          displayBoardsList={displayBoardsList}
+          createTask={createTask}
         />
-        <div className="main">
-          <Todo
-            focusedBoard={focusedBoard}
-            changeStatus={changeStatus}
-            capitalizeFirstLetter={capitalizeFirstLetter}
-            openCardWindow={openCardWindow}
-          />
-          <Doing
-            focusedBoard={focusedBoard}
-            changeStatus={changeStatus}
-            capitalizeFirstLetter={capitalizeFirstLetter}
-            openCardWindow={openCardWindow}
-          />
-          <Done
-            focusedBoard={focusedBoard}
-            changeStatus={changeStatus}
-            capitalizeFirstLetter={capitalizeFirstLetter}
-            openCardWindow={openCardWindow}
-          />
-        </div>
+        <main>
+       
+          {boards === null ?  
+            <EmptyBoardPrompt />
+            : <BoardDisplay 
+                boards={boards}
+                focusedBoard={focusedBoard}
+                changeStatus={changeStatus}
+                capitalizeFirstLetter={capitalizeFirstLetter}
+                openCardWindow={openCardWindow}
+                
+                />
+            }
+
+        </main>
       </div>
     </div>
   );

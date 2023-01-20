@@ -5,249 +5,573 @@
 }
 
 :root {
-  --main-bg-color: #0c042ea8;
-  --sidebar-bg-color: #0d1d47;
-  --card-bg-color: #00a9c7;
-  --accent-color: black;
+  --btnPrimary : #635FC7;
+  --btnPrimaryHover : #A8A4FF;
+  --btnSecondary : white;
+  --btnHover : #E4EBFA;
+  --btnDestructive : #EA5555;
+  --btnDestructiveHover: #FF9898;
+  --bg : #20212C;
+  --nav-bg : #2b2c37;
+  --bg-dark: #000112;
+  --gray-text: #828fa3;
+  --off-white: #E4EBFA;
+  --todo-teal: #49c4e5;
+  --doing-purple:#8471f2;
+  --done-green: #67e2ae;
 }
 
 body {
-  color: whitesmoke;
+  background-color: var(--bg);
+  font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
-button:hover {
-  opacity: 0.7;
+.container{
+  min-width: 320px;
+  max-width: 2560px;
+  margin: auto;
 }
 
-ul {
-  list-style-type: none;
-  list-style-position: inside;
-}
 
-.container {
+.flex-between{
   display: flex;
-  height: 100vh;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.sidebar {
-  border-right: 1px solid white;
-  width: 8%;
-  max-width: 200px;
-  min-width: fit-content;
-  background-color: var(--sidebar-bg-color);
-  color: whitesmoke;
-  padding: 1.5rem;
-}
-
-.body {
+.flex-center{
   display: flex;
-  flex-direction: column;
-  width: 100%;
+  align-items: center;
+  justify-content: center;
 }
 
-.header {
-  background-color: var(--sidebar-bg-color);
-  padding: 1rem 0 1rem 1rem;
-  border-bottom: 1px solid white;
+.sidebar{
+  display: none;
+}
+
+main{
+  min-height: 100vh;
+  color: white;
+  min-height: 100vh;
+  display: grid;
+  gap: 2rem;
+}
+
+/* // <Header /> (rename to Nav) create own CSS file ?  */
+nav{
   display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  padding: 1rem;
+  background-color: var(--nav-bg);
+}
+
+.title-container{
   gap: 1rem;
 }
 
-.main {
-  height: 100%;
-  display: flex;
-  justify-content: space-around;
-  color: whitesmoke;
-  background-image: linear-gradient(#b3cdd1, #797fa3);
+.title-container h1{
+  font-size: 1rem;
 }
 
-/* everything popup */
-.popupContainer,
-.add-card-container,
-.desc-container {
-  position: absolute;
-  height: 100%;
-  width: 100%;            /*chage to none or flex*/
-  display: none;              
+.chevron-down{
+  cursor: pointer;
+  height: 10px;
+}
+
+.controls-container{
+  gap: 1rem;
+}
+
+.create-board-btn::after{
+  content: "+";
+}
+
+.add-task{
+  background-color: var(--btnPrimary);
+  padding: .1rem 1rem;
+  border-radius: 20px;
+  border: none;
+  font-size: 1.2rem;
+  color: white;
+  cursor: pointer;
+}
+
+.add-task:hover{
+  background-color: var(--btnPrimaryHover);
+
+}
+
+.trashcan {
+  fill: var(--btnPrimary);
+  cursor: pointer;
+  min-height: 25px;
+  min-width: 25px;
+}
+
+.trashcan:hover{
+  fill: var(--btnDestructive);
+}
+
+/* </Header end  */
+
+
+ /* <BoardDisplay />  */
+.status-title-container{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+ .status-title-container h2{
+  color: var(--off-white);
+  font-weight: normal;
+ }
+
+ .status-circle{
+  width: 13px;
+  height: 13px;
+  border-radius: 100%;
+ }
+
+ .todo-circle,
+ .todo-add-card-btn{
+  background-color: var(--todo-teal);
+ }
+
+ .doing-circle, 
+ .doing-add-card-btn{
+  background-color: var(--doing-purple);
+ }
+
+ .done-circle,
+ .done-add-card-btn
+ {
+  background-color: var(--done-green);
+ }
+
+ .todo-container,
+ .doing-container,
+ .done-container{
+  padding: 1rem;
+ }
+ 
+ .card{
+  background-color: var(--nav-bg);
+  width: fit-content;
+  padding: .5rem 1rem;
+  margin-top: 1rem;
+  border-radius: 8px;
+  color: var(--gray-text);
+  cursor: pointer;
+ }
+
+ .add-card-btn{
+  margin-top: 1rem;
+  padding: .3rem .5rem;
+  border-radius: 15px;
+  border: none;
+  cursor: pointer;
+}
+ /* <BoardDisplay /> end */
+
+ 
+/* empty board prompt  */
+ .empty-board-styling{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.empty-board-prompt{
+  max-width: 250px;
+  text-align: center;
+  color: var(--gray-text);
+}
+
+.empty-board-prompt p {
+  font-weight: 500;
+}
+
+.add-column{
+  display: flex;
   justify-content: center;
   align-items: center;
-  color: whitesmoke;
-
-  background-color: rgba(8, 8, 20, 0.644);
+  gap: .5rem;
+  width: max-content;
+  padding: .5rem 1rem;
+  background-color: var(--btnPrimary);
+  border-radius: 20px;
+  color: white;
+  margin: 1rem auto;
 }
+/* empty board prompt end*/
 
-.desc-container{
-  flex-direction: column;
-}
 
-.desc-card {
-  background-color: var(--sidebar-bg-color);
-  padding: 1.5rem;
-  max-width: 20rem;
-  border-radius: 5px;
-}
-
-.desc-container button {
-  cursor: pointer;
+/* add task window <CreateBoardPopup /> */
+.popup-container{
+  position: fixed;
   width: 100%;
-  height: 15%;
+  height: 100%;
+  color: white;
+  background-color: #000112d2;
+  display: none;
 }
 
-.edit-desc-box {
-  margin: .5rem 0 .5rem 0;
-  width: 100%;
-}
-
-.addTaskWindow,
-.add-card-window {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
+.add-task-card{
+  background-color: var(--nav-bg);
   padding: 1rem;
-
-  font-size: 1.5rem;
-
-  background-color: rgb(23, 108, 114);
-}
-
-.defaultInputBox {
-  height: 1.8rem;
-  outline: none;
-  padding: 0.5rem;
   border-radius: 3px;
-  border: none;
-  width: 100%;
-}
-
-.descInputBox,
-.edit-desc-box {
-  outline: none;
-  padding: 0.5rem;
-  border-radius: 3px;
-  border: none;
-  resize: none;
-}
-
-.addTaskWindow button,
-.add-card-window button {
-  margin-top: 0.5rem;
-  padding: 0.5rem;
-  border-radius: 50px;
-  border: none;
-  cursor: pointer;
-}
-
-.addTaskWindow .deleteSubtaskBtn {
-  border-radius: 0;
-  padding: 0.3rem;
-  margin-top: 0;
-}
-
-.subInput-close {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  width: 100%;
-  justify-content: space-between;
-}
-
-.popupHeader,
-.add-card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.popupHeader button,
-.add-card-header button {
-  margin-top: 0;
-  border-radius: 0;
-  border: none;
-  cursor: pointer;
-  margin-left: 1rem;
-}
-
-.subtaskContainer {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: .3rem;
 }
 
-/* header */
-.icon {
-  font-size: 1.5rem;
-  color: whitesmoke;
-  align-self: center;
-  cursor: pointer;
+.add-task-form{
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
 }
 
-.trashcan:hover {
-  color: red;
+.add-task-form p{
+  margin-top: 1rem;
 }
 
-.info:hover {
-  color: green;
-}
-
-/* sidebar */
-.board-btn {
-  color: whitesmoke;
-  font-size: 1rem;
-  background-color: #5e56d1cc;
-  border: none;
-  border-radius: 5px;
-  padding: 0.5rem;
-  margin-top: 0.7rem;
-  cursor: pointer;
-  max-width: 200px;
-  word-wrap: break-word;
-}
-
-.add-card-btn,
-.createBoardBtn {
-  cursor: pointer;
-  margin-top: 0.5rem;
-  border: none;
+.add-task-header button,
+.subtask button
+{
   background-color: transparent;
-  color: rgb(32, 153, 184);
-  font-weight: bold;
-  font-size: 1rem;
-}
-
-/* main display */
-.main h2 {
-  color: black;
-}
-
-.add-card-btn {
-  color: var(--accent-color);
-}
-
-.todo-container,
-.doing-container,
-.done-container {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.card {
-  background-color: var(--card-bg-color);
-  padding: 0.6rem;
-  border-radius: 5px;
+  border: none;
   cursor: pointer;
-  word-wrap: break-word;
+  color: var(--gray-text);
+  font-size: 1.1rem;
 }
 
-.card p {
-  max-width: 10rem;
+.add-task-form input,
+.add-task-form textarea{
+  background-color: transparent;
+  border: 1px solid var(--gray-text);
+  color: inherit;
+  padding: .5rem;
+  outline: none;
+  border-radius: 5px;
+
 }
 
-.card:hover {
-  transform: translateX(5%);
-}
-
-form{
+.subtask-container{
   display: flex;
   flex-direction: column;
+  gap: .5rem;
+}
+
+.subtask{
+  display: flex;
+  justify-content: space-between;
+}
+
+.subtask input{
+  width: 90%;
+}
+
+.add-subtask-btn,
+.create-task-btn{
+  font-weight: 600;
+  border: none;
+  border-radius: 15px;
+  padding: .5rem;
+  margin-top: .5rem;
+  cursor: pointer;
+}
+
+.add-subtask-btn{
+  background-color: white;
+  color: var(--btnPrimary);
+}
+
+.add-subtask-btn:hover{
+  background-color: var(--off-white);
+}
+
+.create-task-btn{
+  background-color: var(--btnPrimary);
+  color: white;
+}
+
+.create-task-btn:hover{
+  background-color: var(--btnPrimaryHover);
+}
+/* add task window <CreateBoardPopup /> end */
+
+
+/* <AddCardPopup /> */
+.add-card-card{
+  /*almost exact same as .add-task-card, changed gap and border-radius */
+  background-color: var(--nav-bg);
+  padding: 1rem;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.add-card-header button{
+  /* exact same as .add-task-header button */
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--gray-text);
+  font-size: 1.1rem;
+}
+
+.add-card-form{
+  /* exact same as .add-task-form */
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+}
+
+.add-card-form input{
+  /* exact same as .add-task-form input */
+  background-color: transparent;
+  border: 1px solid var(--gray-text);
+  color: inherit;
+  padding: .5rem;
+  outline: none;
+  border-radius: 5px;
+}
+
+.create-card-btn{
+  /* exact same as .add-task-card */
+  font-weight: 600;
+  border: none;
+  border-radius: 15px;
+  padding: .5rem;
+  margin-top: .5rem;
+  cursor: pointer;
+}
+
+.create-card-btn:hover{
+  background-color: var(--off-white);
+}
+/* <AddCardPopup /> end */
+
+
+/* <BoardList /> */
+
+.boards-list-card{
+  /*almost exact same as .add-task-card, changed gap and border-radius */
+  background-color: var(--nav-bg);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.boards-list-card-header{
+  padding: 1rem;
+  gap: 1.5rem;
+}
+
+.boards-list-card-header .close-popup{
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--gray-text);
+  font-size: 1.1rem;
+}
+
+.boards-list-card-header p{
+  font-size: 1.1rem;
+  color: var(--off-white);
+  font-weight: 500;
+}
+
+ .boards-list-card .board-list{
+  display: flex;
+  flex-direction: column;
+  gap: .8rem;
+
+}
+
+.boards-list-card .board-list .board-list-item{
+  list-style-type: none ;
+  list-style-position: inside;
+  padding: .5rem;
+  max-width: 350px;
+  margin-right: 20px;
+}
+
+.board-list-item:last-child{
+  margin-bottom: 1rem;
+}
+
+.focused{
+  background-color: var(--btnPrimary);
+  border: none;
+  border-top-right-radius: 30px ;
+  border-bottom-right-radius: 30px ;
+}
+
+.board-list-item .item-contents {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin-left: .5rem;
+  cursor: pointer;
+}
+/* <BoardList /> end */
+
+
+/* light theme  */
+  .light nav{
+    background-color: white;
+    color: black;
+  }
+
+  .light main{
+    background-color: var(--off-white);
+
+  }
+
+  .light .status-title-container h2{
+    color: var(--gray-text);
+
+  }
+
+  .light .card{
+  background-color: white;
+    color: black;
+  }
+
+  /* create board popup  */
+  .light .add-task-card{
+    background-color: white;
+    color: black;
+  }
+
+  .light .add-subtask-btn{
+    background-color: var(--off-white);
+  }
+
+  .light .add-subtask-btn:hover{
+    opacity: .8;
+  }
+
+/* board list popup    */
+  .light .boards-list-card-header p{
+    color: black;
+  }
+
+  .light .boards-list-card{
+    background-color: white;
+    color: var(--gray-text);
+  }
+
+  .light .focused{
+    color: white;
+  }
+
+  /* add card btn + add card popup  */
+  .light .add-card-card{
+    background-color: white;
+    color: black;
+  }
+
+  .light .create-card-btn{
+    background-color: var(--btnPrimary);
+    color: white;
+  }
+
+  .light .add-card-btn{
+    color: white;
+  }
+/* light theme end  */
+
+
+/* <LightDarkToggle /> */
+/* https://www.w3schools.com/howto/howto_css_switch.asp  */
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--btnPrimary);
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.switch-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.mode-icon{
+  height: 30px;
+}
+
+.dark-icon{
+  margin-right: .5rem;
+}
+
+.light-icon{
+  margin-left: .5rem;
+}
+
+/* <LightDarkToggle /> end  */
+
+@media (min-width:768px) {
+  .create-board-btn::after{
+    content: "+ Add New Task";
+  }
+  
 }
