@@ -72,7 +72,7 @@ function App() {
   });
 
   function openCreateBoard() {
-        popupWindow.current.style.display = "flex";
+        popupWindowRef.current.style.display = "flex";
   }
 
   function focusBoard(e) {
@@ -94,7 +94,7 @@ function App() {
       e.target.parentNode.remove();
     });
 
-    subtaskInputContainer.current.appendChild(clonedSubtaskNode)
+    subtaskInputContainerRef.current.appendChild(clonedSubtaskNode)
 
   }
 
@@ -103,7 +103,7 @@ function App() {
     let newBoards
 
     const todo = [];
-    subtaskInputContainer.current.childNodes.forEach((ele) => {
+    subtaskInputContainerRef.current.childNodes.forEach((ele) => {
       if (ele.firstChild.value === "") {
         return;
       }
@@ -111,8 +111,8 @@ function App() {
     });
 
     if (
-      descInput.current.value.trim() === "" ||
-      titleInput.current.value.trim() === ""
+      descInputRef.current.value.trim() === "" ||
+      titleInputRef.current.value.trim() === ""
     ) {
       alert(
         "Please make sure the Description and Title sections are filled in"
@@ -121,8 +121,8 @@ function App() {
     }
 
     const newTask = {
-      title: titleInput.current.value,
-      desc: descInput.current.value,
+      title: titleInputRef.current.value,
+      desc: descInputRef.current.value,
       todo: todo,
       doing: [],
       done: [],
@@ -143,17 +143,17 @@ function App() {
   }
 
   function closePopup() {
-    popupWindow.current.style.display = "none";
+    popupWindowRef.current.style.display = "none";
     addCardWindow.current.style.display = "none";
     clearPopupInputs();
   }
 
   function clearPopupInputs() {
     console.log("cleared inputs");
-    titleInput.current.value = "";
-    descInput.current.value = "";
+    titleInputRef.current.value = "";
+    descInputRef.current.value = "";
     addCardInput.current.value = "";
-    subtaskInputContainer.current.childNodes.forEach(
+    subtaskInputContainerRef.current.childNodes.forEach(
       (child) => (child.firstChild.value = "")
     );
   }
@@ -264,12 +264,12 @@ function App() {
 
   // const createBoardBtn = useRef(null);
   const closePopupBtn = useRef(null);
-  const popupWindow = useRef(null);
-  const titleInput = useRef(null);
-  const descInput = useRef(null);
+  const popupWindowRef = useRef(null);
+  const titleInputRef = useRef(null);
+  const descInputRef = useRef(null);
   const addCardWindow = useRef(null);
   const addCardInput = useRef(null);
-  const subtaskInputContainer = useRef(null);
+  const subtaskInputContainerRef = useRef(null);
   const descriptionWindowRef= useRef(null);
   const descriptionBoxRef= useRef(null);
   const boardsListWindowRef = useRef(null);
@@ -277,12 +277,11 @@ function App() {
   return (
     <div className="container">
       <CreateBoardPopup
-        popupWindow={popupWindow}
-        closePopupBtn={closePopupBtn}
+        popupWindowRef={popupWindowRef}
         closePopup={closePopup}
-        titleInput={titleInput}
-        descInput={descInput}
-        subtaskInputContainer={subtaskInputContainer}
+        titleInputRef={titleInputRef}
+        descInputRef={descInputRef}
+        subtaskInputContainerRef={subtaskInputContainerRef}
         addSubtask={addSubtask}
         createTask={createTask}
       />
