@@ -72,7 +72,7 @@ function App() {
   });
 
   function openCreateBoard() {
-        popupWindowRef.current.style.display = "flex";
+        createBoardWindowRef.current.style.display = "flex";
   }
 
   function focusBoard(e) {
@@ -82,80 +82,16 @@ function App() {
     setFocusedBoard(focusedBoard);
   }
 
-  function addSubtask(e) {
-    e.preventDefault()
-
-    const existingSubtaskNode = document.querySelector(".subtask")
-    const clonedSubtaskNode =  existingSubtaskNode.cloneNode(true)
-
-    clonedSubtaskNode.querySelector("input").value = ""
-    
-    clonedSubtaskNode.lastChild.addEventListener("click", (e) => {
-      e.target.parentNode.remove();
-    });
-
-    subtaskInputContainerRef.current.appendChild(clonedSubtaskNode)
-
-  }
-
-  function createTask(e) {
-    e.preventDefault()
-    let newBoards
-
-    const todo = [];
-    subtaskInputContainerRef.current.childNodes.forEach((ele) => {
-      if (ele.firstChild.value === "") {
-        return;
-      }
-      todo.push(ele.firstChild.value);
-    });
-
-    if (
-      descInputRef.current.value.trim() === "" ||
-      titleInputRef.current.value.trim() === ""
-    ) {
-      alert(
-        "Please make sure the Description and Title sections are filled in"
-      );
-      return;
-    }
-
-    const newTask = {
-      title: titleInputRef.current.value,
-      desc: descInputRef.current.value,
-      todo: todo,
-      doing: [],
-      done: [],
-      key: Date.now(),
-    };
-
-    if(boards){
-      newBoards = [...boards, newTask];
-    }
-    else{
-      newBoards = [newTask]
-    }
-
-    setBoards(newBoards);
-    setFocusedBoard(newBoards[newBoards.length - 1])
-
-    closePopup();
-  }
-
+  // rename ? 
   function closePopup() {
-    popupWindowRef.current.style.display = "none";
     addCardWindow.current.style.display = "none";
     clearPopupInputs();
   }
 
+  //rename ?
   function clearPopupInputs() {
     console.log("cleared inputs");
-    titleInputRef.current.value = "";
-    descInputRef.current.value = "";
     addCardInput.current.value = "";
-    subtaskInputContainerRef.current.childNodes.forEach(
-      (child) => (child.firstChild.value = "")
-    );
   }
 
   function changeStatus(e) {
@@ -262,28 +198,21 @@ function App() {
     boardsListWindowRef.current.style.display = "flex"
   }
 
-  // const createBoardBtn = useRef(null);
   const closePopupBtn = useRef(null);
-  const popupWindowRef = useRef(null);
-  const titleInputRef = useRef(null);
-  const descInputRef = useRef(null);
   const addCardWindow = useRef(null);
   const addCardInput = useRef(null);
-  const subtaskInputContainerRef = useRef(null);
   const descriptionWindowRef= useRef(null);
   const descriptionBoxRef= useRef(null);
   const boardsListWindowRef = useRef(null);
+  const createBoardWindowRef = useRef(null);
 
   return (
     <div className="container">
       <CreateBoardPopup
-        popupWindowRef={popupWindowRef}
-        closePopup={closePopup}
-        titleInputRef={titleInputRef}
-        descInputRef={descInputRef}
-        subtaskInputContainerRef={subtaskInputContainerRef}
-        addSubtask={addSubtask}
-        createTask={createTask}
+        createBoardWindowRef={createBoardWindowRef}
+        boards={boards}
+        setBoards={setBoards}
+        setFocusedBoard={setFocusedBoard}
       />
 
       <AddCardPopup
