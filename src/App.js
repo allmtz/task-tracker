@@ -15,7 +15,7 @@ import CreateBoardPopup from "./components/CreateBoardPopup";
 import DescriptionPopup from "./components/DescriptionPopup";
 
 // CHANGES 
-import addTask from './assets/icon-add-task-mobile.svg'
+// import addTask from './assets/icon-add-task-mobile.svg'
 import { EmptyBoardPrompt } from "./components/EmptyBoardPrompt";
 import { BoardDisplay } from "./components/BoardDisplay";
 import BoardListPopup from "./components/BoardListPopup";
@@ -26,7 +26,7 @@ export function capitalizeFirstLetter(string) {
 }
 
 function App() {
-  let cardType = "";
+      let cardType = "";
 
   const backup = {
     title: "...There's always Netflix ?",
@@ -85,13 +85,17 @@ function App() {
   function addSubtask(e) {
     e.preventDefault()
 
-    subtaskInputContainer.current.innerHTML +=
-      "<div class='subtask'><input type='text'  /> <button class='delete-subtask-btn'>X</button></div>";
-    subtaskInputContainer.current.childNodes.forEach((ele) => {
-      ele.lastChild.addEventListener("click", (e) => {
-        e.target.parentNode.remove();
-      });
+    const existingSubtaskNode = document.querySelector(".subtask")
+    const clonedSubtaskNode =  existingSubtaskNode.cloneNode(true)
+
+    clonedSubtaskNode.querySelector("input").value = ""
+    
+    clonedSubtaskNode.lastChild.addEventListener("click", (e) => {
+      e.target.parentNode.remove();
     });
+
+    subtaskInputContainer.current.appendChild(clonedSubtaskNode)
+
   }
 
   function createTask(e) {
