@@ -252,8 +252,8 @@ nav{
   margin-top: 1rem;
 }
 
-.add-task-header button,
-.subtask button
+.close-add-task-window-btn,
+.delete-subtask-btn
 {
   background-color: transparent;
   border: none;
@@ -282,6 +282,7 @@ nav{
 .subtask{
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .subtask input{
@@ -301,6 +302,8 @@ nav{
 .add-subtask-btn{
   background-color: white;
   color: var(--btnPrimary);
+  text-align: center;
+  font-size: .8rem;
 }
 
 .add-subtask-btn:hover{
