@@ -7,15 +7,12 @@
 
 import "./App.css";
 import React, { useEffect, useRef, useState } from "react";
-// import BoardList from "./components/BoardListPopup";
-// import CreateBoardBtn from "./components/CreateBoardBtn";
 import Nav from "./components/Nav";
 import AddCardPopup from "./components/AddCardPopup";
 import CreateBoardPopup from "./components/CreateBoardPopup";
 import DescriptionPopup from "./components/DescriptionPopup";
 
 // CHANGES 
-// import addTask from './assets/icon-add-task-mobile.svg'
 import { EmptyBoardPrompt } from "./components/EmptyBoardPrompt";
 import { BoardDisplay } from "./components/BoardDisplay";
 import BoardListPopup from "./components/BoardListPopup";
@@ -26,8 +23,6 @@ export function capitalizeFirstLetter(string) {
 }
 
 function App() {
-      let cardType = "";
-
   const backup = {
     title: "...There's always Netflix ?",
     todo: [],
@@ -82,17 +77,6 @@ function App() {
     setFocusedBoard(focusedBoard);
   }
 
-  // rename ? 
-  function closePopup() {
-    addCardWindow.current.style.display = "none";
-    clearPopupInputs();
-  }
-
-  //rename ?
-  function clearPopupInputs() {
-    console.log("cleared inputs");
-    addCardInput.current.value = "";
-  }
 
   function changeStatus(e) {
     const status = e.target.closest(".card").getAttribute("data-status");
@@ -114,31 +98,11 @@ function App() {
     setBoards(boardClone);
   }
 
-  function createCard(e) {
-    e.preventDefault();
-    const boardClone = [...boards];
-    const taskToAdd = addCardInput.current.value;
-
-    if (addCardInput.current.value.trim() === "") {
-      alert("Fill in a task");
-      return;
-    }
-
-    boardClone.forEach((board) => {
-      if (board.key === focusedBoard.key) {         //finds the board thats currently being displayed
-        board[cardType].push(taskToAdd);            //adds a card to the 'todo' 'doing' or 'done' array
-      }
-    });
-
-    setBoards(boardClone);
-
-    closePopup();
-  }
 
   function openCardWindow(e) {
-    addCardWindow.current.style.display = "flex";
+    addCardWindowRef.current.style.display = "flex";
 
-    cardType = e.target.id;
+    setCardType(e.target.id)
   }
 
 
@@ -198,13 +162,13 @@ function App() {
     boardsListWindowRef.current.style.display = "flex"
   }
 
-  const closePopupBtn = useRef(null);
-  const addCardWindow = useRef(null);
-  const addCardInput = useRef(null);
+  const addCardWindowRef = useRef(null);
   const descriptionWindowRef= useRef(null);
   const descriptionBoxRef= useRef(null);
   const boardsListWindowRef = useRef(null);
   const createBoardWindowRef = useRef(null);
+
+  const [cardType, setCardType] = useState("")
 
   return (
     <div className="container">
@@ -216,11 +180,11 @@ function App() {
       />
 
       <AddCardPopup
-        closePopup={closePopup}
-        createCard={createCard}
-        addCardInput={addCardInput}
-        addCardWindow={addCardWindow}
-        closePopupBtn={closePopupBtn}
+        cardType={cardType}
+        addCardWindowRef={addCardWindowRef}
+        boards={boards}
+        setBoards={setBoards}
+        focusedBoard={focusedBoard}
       />
 
       <BoardListPopup
