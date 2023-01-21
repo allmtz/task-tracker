@@ -7,17 +7,18 @@
 
 import "./App.css";
 import React, { useEffect, useRef, useState } from "react";
-import BoardList from "./components/BoardList";
+// import BoardList from "./components/BoardListPopup";
 // import CreateBoardBtn from "./components/CreateBoardBtn";
 import Nav from "./components/Nav";
 import AddCardPopup from "./components/AddCardPopup";
 import CreateBoardPopup from "./components/CreateBoardPopup";
-import DescPopup from "./components/DescPopup";
+import DescriptionPopup from "./components/DescriptionPopup";
 
 // CHANGES 
 import addTask from './assets/icon-add-task-mobile.svg'
 import { EmptyBoardPrompt } from "./components/EmptyBoardPrompt";
 import { BoardDisplay } from "./components/BoardDisplay";
+import BoardListPopup from "./components/BoardListPopup";
 
 
 export function capitalizeFirstLetter(string) {
@@ -79,7 +80,6 @@ function App() {
     const focusedBoard = boards.filter((board) => id === String(board.key))[0];
 
     setFocusedBoard(focusedBoard);
-    console.log("focused");
   }
 
   function addSubtask(e) {
@@ -224,33 +224,34 @@ function App() {
       setFocusedBoard(updatedTasks[indexOfDeletedTask]);
     }
   
-    closeDescPopup()
+    closeDescriptionPopup()
   }
 
   return 
   }
 
   function openDesc(){
-    descWindow.current.style.display = 'flex'
-    editDescBox.current.value = focusedBoard.desc
+    descriptionWindowRef.current.style.display = 'flex'
+    descriptionBoxRef.current.value = focusedBoard.desc
 
   }
 
-  function closeDescPopup(){
-    // this was updating the description text when a board was deleted.
-    // const newDesc = editDescBox.current.value
+  function updateDescription(){
+   const newDesc = descriptionBoxRef.current.value
 
-    // const boardsClone = [...boards]
+    const boardsClone = [...boards]
 
-    // boardsClone.forEach( board => {
-    //   if (Number(board.key) === focusedBoard.key){
-    //     board.desc = newDesc
-    //   }
-    // })
+    boardsClone.forEach( board => {
+      if (Number(board.key) === focusedBoard.key){
+        board.desc = newDesc
+      }
+    })
     
-    // setBoards(boardsClone)
+    setBoards(boardsClone)
+  }
 
-    descWindow.current.style.display = "none";
+  function closeDescriptionPopup(){
+    descriptionWindowRef.current.style.display = "none";
   }
 
   function openBoardList(){
@@ -265,8 +266,8 @@ function App() {
   const addCardWindow = useRef(null);
   const addCardInput = useRef(null);
   const subtaskInputContainer = useRef(null);
-  const descWindow= useRef(null);
-  const editDescBox= useRef(null);
+  const descriptionWindowRef= useRef(null);
+  const descriptionBoxRef= useRef(null);
   const boardsListWindowRef = useRef(null);
 
   return (
@@ -290,19 +291,19 @@ function App() {
         closePopupBtn={closePopupBtn}
       />
 
-      <BoardList
+      <BoardListPopup
           boards={boards}
           focusBoard={focusBoard}
-          capitalizeFirstLetter={capitalizeFirstLetter}
           boardsListWindowRef={boardsListWindowRef}
           focusedBoard={focusedBoard}
         />
 
-      <DescPopup 
-        descWindow={descWindow} 
-        editDescBox={editDescBox} 
-        closeDescPopup={closeDescPopup} 
+      <DescriptionPopup 
+        descriptionWindowRef={descriptionWindowRef} 
+        descriptionBoxRef={descriptionBoxRef} 
+        closeDescriptionPopup={closeDescriptionPopup} 
         deleteBoard={deleteBoard}
+        updateDescription={updateDescription}
       /> 
     
       <div className="body">

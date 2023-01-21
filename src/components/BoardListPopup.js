@@ -1,10 +1,12 @@
 // TODO 
-// change capitalizeFirstLetter() to some kind of fomatTitle() 
+// change capitalizeFirstLetter() to some kind of formatTitle() 
 
+//images
 import boardsImg from "../assets/icon-board.svg"
-import { LightDarkToggle } from "./LightDarkToggle"
+//functions
+import { capitalizeFirstLetter } from '../App';
 
-function BoardList( {boards, focusBoard, capitalizeFirstLetter, boardsListWindowRef, focusedBoard }){
+function BoardListPopup( {boards, focusBoard, boardsListWindowRef, focusedBoard }){
     return(
         <div ref={boardsListWindowRef} className="popup-container flex-center" >
             <div className="boards-list-card">
@@ -23,10 +25,10 @@ function BoardList( {boards, focusBoard, capitalizeFirstLetter, boardsListWindow
                                 className={ focusedBoard.key === board.key ? "board-list-item focused" : "board-list-item "  } 
                                 key={board.key}
                                 id={board.key}
-                                onClick={ (e)=> focusBoard(e) }
+                                onClick={focusBoard}
                             >
                                 <div className="item-contents">
-                                    <img src={boardsImg} alt="" />
+                                    <img src={boardsImg} alt="logo" />
                                     <p>
                                         {capitalizeFirstLetter(board.title) }
                                     </p>
@@ -35,10 +37,9 @@ function BoardList( {boards, focusBoard, capitalizeFirstLetter, boardsListWindow
                         )
                     }
                 </ul>
-                {/* <LightDarkToggle /> */}
             </div>
         </div>
     )
 }
 
-export default BoardList
+export default BoardListPopup

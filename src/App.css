@@ -385,6 +385,10 @@ nav{
   align-items: center;
 }
 
+.desc-card-header p{
+  cursor: pointer;
+}
+
 .edit-desc-box{
   /* same as add-task-form input  */
   background-color: transparent;
