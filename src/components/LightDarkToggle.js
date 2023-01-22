@@ -14,7 +14,7 @@ function toggleMode(){
             <img className="mode-icon dark-icon" src={darkIcon} alt="dark icon" />
             <label className="switch">
                 <input type="checkbox"  />
-                <span onClick={() => toggleMode()} className="slider round"></span>
+                <span onClick={toggleMode} className="slider round"></span>
             </label>
             <img className="mode-icon light-icon" src={lightIcon} alt="light icon" />
         </div>

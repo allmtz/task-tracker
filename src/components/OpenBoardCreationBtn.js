@@ -1,7 +1,3 @@
-// todo
-// think i can delete createBoardBtn ref  DONE
-// rename createBoard --> it opens the popup window DONE: might delete this component altogether
-
 function OpenBoardCreationBtn( {openCreateBoard} ){
     return(
         <button 
