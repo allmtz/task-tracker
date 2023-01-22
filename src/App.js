@@ -136,22 +136,6 @@ function App() {
 
   function openDesc(){
     descriptionWindowRef.current.style.display = 'flex'
-    descriptionBoxRef.current.value = focusedBoard.desc
-
-  }
-
-  function updateDescription(){
-   const newDesc = descriptionBoxRef.current.value
-
-    const boardsClone = [...boards]
-
-    boardsClone.forEach( board => {
-      if (Number(board.key) === focusedBoard.key){
-        board.desc = newDesc
-      }
-    })
-    
-    setBoards(boardsClone)
   }
 
   function closeDescriptionPopup(){
@@ -164,7 +148,6 @@ function App() {
 
   const addCardWindowRef = useRef(null);
   const descriptionWindowRef= useRef(null);
-  const descriptionBoxRef= useRef(null);
   const boardsListWindowRef = useRef(null);
   const createBoardWindowRef = useRef(null);
 
@@ -188,18 +171,19 @@ function App() {
       />
 
       <BoardListPopup
-          boards={boards}
-          focusBoard={focusBoard}
-          boardsListWindowRef={boardsListWindowRef}
-          focusedBoard={focusedBoard}
-        />
+        boards={boards}
+        focusBoard={focusBoard}
+        boardsListWindowRef={boardsListWindowRef}
+        focusedBoard={focusedBoard}
+      />
 
       <DescriptionPopup 
         descriptionWindowRef={descriptionWindowRef} 
-        descriptionBoxRef={descriptionBoxRef} 
         closeDescriptionPopup={closeDescriptionPopup} 
         deleteBoard={deleteBoard}
-        updateDescription={updateDescription}
+        boards={boards}
+        setBoards={setBoards}
+        focusedBoard={focusedBoard}
       /> 
     
       <div className="body">
