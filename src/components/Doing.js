@@ -1,4 +1,6 @@
-function Doing ( {focusedBoard, changeStatus, capitalizeFirstLetter, openCardWindow } ){
+import { capitalizeFirstLetter } from "../App"
+
+function Doing ( {focusedBoard, changeStatus, openCardWindow } ){
     let i = 0
     return(
         <div className="doing-container">
@@ -10,11 +12,8 @@ function Doing ( {focusedBoard, changeStatus, capitalizeFirstLetter, openCardWin
                 i++
                 return <div id={task} className="card" data-status='doing' data-key={focusedBoard.key} onClick={(e)=> changeStatus(e)} key={i}><p>{capitalizeFirstLetter(task)}</p></div>} )}
             <button className='add-card-btn doing-add-card-btn' id="doing" onClick={(e)=>openCardWindow(e)}>+ Add Card</button>
-
         </div>
     )
-
 }
-
 
 export default Doing

@@ -1,20 +1,11 @@
-// TODO 
-// figure out which refs can be deleted
-// define functions outside of App()
-// keep defaultBoards ?
-// organize
-// check all components
-
 import "./App.css";
 import React, { useEffect, useRef, useState } from "react";
 import Nav from "./components/Nav";
 import AddCardPopup from "./components/AddCardPopup";
 import CreateBoardPopup from "./components/CreateBoardPopup";
 import DescriptionPopup from "./components/DescriptionPopup";
-
-// CHANGES 
-import { EmptyBoardPrompt } from "./components/EmptyBoardPrompt";
-import { BoardDisplay } from "./components/BoardDisplay";
+import EmptyBoardPrompt  from "./components/EmptyBoardPrompt";
+import BoardDisplay from "./components/BoardDisplay";
 import BoardListPopup from "./components/BoardListPopup";
 
 
@@ -22,31 +13,38 @@ export function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-function App() {
-  const backup = {
-    title: "...There's always Netflix ?",
-    todo: [],
+const backup = {
+  title: "...There's always Netflix ?",
+  todo: [],
+  doing: [],
+  done: [],
+  key: 1,
+  desc: "Don't forget Snacks !"
+};
+
+const defaultBoards = [
+  {
+    title: "Built with react",
+    todo: [
+      "Click Me!",
+      "Add a card to any column",
+      "Create a new Board with a custom title, description and subtasks",
+      "View and edit any description by clicking the info icon"
+    ],
     doing: [],
     done: [],
-    key: 1,
-    desc: "Don't forget Snacks !"
-  };
-  const defaultBoards = [
-    {
-      title: "Built with react",
-      todo: [
-        "Click Me!",
-        "Add a card to any column",
-        "Create a new Board with a custom title, description and subtasks",
-        "View and edit any description by clicking the info icon"
-      ],
-      doing: [],
-      done: [],
-      key: 2,
-      desc:'"To improve is to change; to be perfect is to change often." \n-Winston Churchill',
-    },
-  ];
+    key: 2,
+    desc:'"To improve is to change; to be perfect is to change often." \n-Winston Churchill',
+  },
+];
 
+function App() {
+  const addCardWindowRef = useRef(null);
+  const descriptionWindowRef= useRef(null);
+  const boardsListWindowRef = useRef(null);
+  const createBoardWindowRef = useRef(null);
+
+  const [cardType, setCardType] = useState("")
   const [boards, setBoards] = useState(() => {
     const savedBoards = localStorage.getItem("boards");
     const initialBoards = JSON.parse(savedBoards);
@@ -57,10 +55,7 @@ function App() {
     }
     return initialBoards;
   });
-
-  const [focusedBoard, setFocusedBoard] = useState(
-      boards !== null ? boards[0] : null
-    );
+  const [focusedBoard, setFocusedBoard] = useState( boards !== null ? boards[0] : null);
 
   useEffect(() => {
     localStorage.setItem("boards", JSON.stringify(boards));
@@ -98,13 +93,11 @@ function App() {
     setBoards(boardClone);
   }
 
-
   function openCardWindow(e) {
     addCardWindowRef.current.style.display = "flex";
 
     setCardType(e.target.id)
   }
-
 
   function deleteBoard() {
     const wantsToDelete = window.confirm(`Are you sure you want to delete the "${focusedBoard.title}" board? This action will remove all of the columns and cannot be reversed`)
@@ -145,13 +138,6 @@ function App() {
   function openBoardList(){
     boardsListWindowRef.current.style.display = "flex"
   }
-
-  const addCardWindowRef = useRef(null);
-  const descriptionWindowRef= useRef(null);
-  const boardsListWindowRef = useRef(null);
-  const createBoardWindowRef = useRef(null);
-
-  const [cardType, setCardType] = useState("")
 
   return (
     <div className="container">
@@ -194,19 +180,14 @@ function App() {
           openBoardList={openBoardList}
         />
         <main>
-       
           {boards === null ?  
             <EmptyBoardPrompt />
             : <BoardDisplay 
-                boards={boards}
                 focusedBoard={focusedBoard}
                 changeStatus={changeStatus}
-                capitalizeFirstLetter={capitalizeFirstLetter}
                 openCardWindow={openCardWindow}
-                
                 />
             }
-
         </main>
       </div>
     </div>
