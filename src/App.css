@@ -57,7 +57,7 @@ main{
   gap: 2rem;
 }
 
-/* // <Header /> (rename to Nav) create own CSS file ?  */
+/* // <Nav /> create own CSS file ?  */
 nav{
   display: flex;
   gap: 1rem;
@@ -70,6 +70,8 @@ nav{
 
 .title-container{
   gap: 1rem;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .title-container h1{
@@ -126,7 +128,7 @@ nav{
   fill: var(--btnDestructive);
 }
 
-/* </Header end  */
+/* </Nav end  */
 
 
  /* <BoardDisplay />  */
@@ -177,6 +179,8 @@ nav{
   border-radius: 8px;
   color: var(--gray-text);
   cursor: pointer;
+  max-width: 90vw;
+  overflow: hidden;
  }
 
  .add-card-btn{
@@ -474,6 +478,7 @@ nav{
   border: none;
   border-top-right-radius: 30px ;
   border-bottom-right-radius: 30px ;
+  overflow: hidden;
 }
 
 .board-list-item .item-contents {

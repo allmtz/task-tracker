@@ -24,6 +24,7 @@ function Nav({ focusedBoard, openDesc, openCreateBoard, openBoardList }) {
           </h1>
           : <h1>Platform Launch</h1>
        }
+      </div>
       <div className="flex-between controls-container ">
         <img 
           src={chevronDown} 
@@ -38,7 +39,6 @@ function Nav({ focusedBoard, openDesc, openCreateBoard, openBoardList }) {
         <OpenBoardCreationBtn 
           openCreateBoard={openCreateBoard} />
         </div>
-      </div>
         <LightDarkToggle />
     </nav>
   );
