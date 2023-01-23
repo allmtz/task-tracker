@@ -21,7 +21,7 @@
   --done-green: #67e2ae;
 }
 
-body {
+.wrapper {
   background-color: var(--bg);
   font-family: 'Plus Jakarta Sans', sans-serif;
 }
@@ -72,6 +72,7 @@ nav{
   gap: 1rem;
   max-width: 100%;
   overflow: hidden;
+  display: flex;
 }
 
 .title-container h1{
@@ -473,6 +474,11 @@ nav{
   margin-bottom: 1rem;
 }
 
+.board-list-title-container{
+  width: 100%;
+  overflow: hidden;
+}
+
 .focused{
   background-color: var(--btnPrimary);
   border: none;
@@ -492,6 +498,10 @@ nav{
 
 
 /* light theme  */
+  .light .wrapper{
+    background-color: white;
+  }
+
   .light nav{
     background-color: white;
     color: black;

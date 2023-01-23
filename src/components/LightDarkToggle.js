@@ -5,7 +5,7 @@ import lightIcon from "../assets/icon-light-theme.svg"
 // figure out a way to save mode to localStorage and have the toggle be in sync 
 
 function toggleMode(){
-    document.body.querySelector(".container").classList.toggle("light")
+    document.body.classList.toggle("light")
   }
 
  const LightDarkToggle = () => {

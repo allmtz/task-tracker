@@ -140,55 +140,57 @@ function App() {
   }
 
   return (
-    <div className="container">
-      <CreateBoardPopup
-        createBoardWindowRef={createBoardWindowRef}
-        boards={boards}
-        setBoards={setBoards}
-        setFocusedBoard={setFocusedBoard}
-      />
-
-      <AddCardPopup
-        cardType={cardType}
-        addCardWindowRef={addCardWindowRef}
-        boards={boards}
-        setBoards={setBoards}
-        focusedBoard={focusedBoard}
-      />
-
-      <BoardListPopup
-        boards={boards}
-        focusBoard={focusBoard}
-        boardsListWindowRef={boardsListWindowRef}
-        focusedBoard={focusedBoard}
-      />
-
-      <DescriptionPopup 
-        descriptionWindowRef={descriptionWindowRef} 
-        closeDescriptionPopup={closeDescriptionPopup} 
-        deleteBoard={deleteBoard}
-        boards={boards}
-        setBoards={setBoards}
-        focusedBoard={focusedBoard}
-      /> 
-    
-      <div className="body">
-        <Nav
-          focusedBoard={focusedBoard}
-          openDesc={openDesc}
-          openCreateBoard={openCreateBoard}
-          openBoardList={openBoardList}
+    <div className="wrapper">
+      <div className="container">
+        <CreateBoardPopup
+          createBoardWindowRef={createBoardWindowRef}
+          boards={boards}
+          setBoards={setBoards}
+          setFocusedBoard={setFocusedBoard}
         />
-        <main>
-          {boards === null ?  
-            <EmptyBoardPrompt />
-            : <BoardDisplay 
-                focusedBoard={focusedBoard}
-                changeStatus={changeStatus}
-                openCardWindow={openCardWindow}
-                />
-            }
-        </main>
+
+        <AddCardPopup
+          cardType={cardType}
+          addCardWindowRef={addCardWindowRef}
+          boards={boards}
+          setBoards={setBoards}
+          focusedBoard={focusedBoard}
+        />
+
+        <BoardListPopup
+          boards={boards}
+          focusBoard={focusBoard}
+          boardsListWindowRef={boardsListWindowRef}
+          focusedBoard={focusedBoard}
+        />
+
+        <DescriptionPopup 
+          descriptionWindowRef={descriptionWindowRef} 
+          closeDescriptionPopup={closeDescriptionPopup} 
+          deleteBoard={deleteBoard}
+          boards={boards}
+          setBoards={setBoards}
+          focusedBoard={focusedBoard}
+        /> 
+      
+        <div className="body">
+          <Nav
+            focusedBoard={focusedBoard}
+            openDesc={openDesc}
+            openCreateBoard={openCreateBoard}
+            openBoardList={openBoardList}
+          />
+          <main>
+            {boards === null ?  
+              <EmptyBoardPrompt />
+              : <BoardDisplay 
+                  focusedBoard={focusedBoard}
+                  changeStatus={changeStatus}
+                  openCardWindow={openCardWindow}
+                  />
+              }
+          </main>
+        </div>
       </div>
     </div>
   );
