@@ -29,7 +29,7 @@ function BoardListPopup( {boards, focusBoard, boardsListWindowRef, focusedBoard 
                             >
                                 <div className="item-contents">
                                     <img src={boardsImg} alt="logo" />
-                                    <p>
+                                    <p className="board-list-title-container">
                                         {capitalizeFirstLetter(board.title) }
                                     </p>
                                 </div>
